@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Varikkans Tea Company | Artisanal Eats</title>
+    <title>The Savory Loft | Artisanal Eats</title>
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
@@ -13,12 +13,11 @@
             --bg: #fdfbf7; /* Creamy White */
             --card-bg: #ffffff;
             --text: #333;
+            --danger: #e74c3c; /* Red for delete buttons */
             --font-head: 'Playfair Display', serif;
             --font-body: 'Lato', sans-serif;
             --radius: 12px;
             --shadow: 0 10px 30px rgba(0,0,0,0.08);
-            --danger: #e74c3c;
-            --success: #27ae60;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +27,7 @@
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
-            padding-bottom: 50px;
+            overflow-x: hidden;
         }
 
         /* --- TYPOGRAPHY --- */
@@ -72,121 +71,259 @@
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
 
-        /* --- HERO --- */
-        .hero { display: flex; align-items: center; justify-content: space-between; height: 90vh; }
+        /* --- HOME PAGE --- */
+        .hero {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 90vh; padding-top: 0;
+        }
         .hero-text { flex: 1; padding-right: 2rem; }
-        .hero-img { flex: 1; position: relative; }
+        .hero-text p { font-size: 1.2rem; color: #666; margin: 1.5rem 0 2rem; }
+        
+        .hero-img {
+            flex: 1; position: relative;
+        }
         .plate-img {
             width: 100%; border-radius: 50% 50% 10% 50%;
             box-shadow: var(--shadow); border: 5px solid #fff;
-            height: 500px; object-fit: cover;
+            background: #ddd; height: 500px; object-fit: cover;
+            /* Placeholder for food image */
             background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-position: center;
         }
-
-        /* --- MENU --- */
-        .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; }
-        .menu-card { background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); position: relative; transition: 0.3s; }
-        .menu-card:hover { transform: translateY(-5px); }
-        .menu-img { width: 100%; height: 200px; background: #eee; border-radius: 8px; margin-bottom: 1rem; object-fit: cover; }
-        .price-tag { background: var(--primary); color: #fff; padding: 0.3rem 0.8rem; border-radius: 20px; position: absolute; top: 25px; right: 25px; font-weight: bold; }
-        
-        /* --- FORMS --- */
-        input, select, textarea {
-            width: 100%; padding: 1rem; border: 2px solid #eee; border-radius: 8px;
-            font-family: inherit; font-size: 1rem; outline: none; margin-bottom: 1rem;
+        .badge {
+            position: absolute; top: 20px; right: 20px;
+            background: var(--secondary); color: white; padding: 1.5rem;
+            border-radius: 50%; font-weight: bold; text-align: center;
+            transform: rotate(15deg); box-shadow: var(--shadow);
         }
-        input:focus, textarea:focus { border-color: var(--secondary); }
 
-        /* --- ADMIN PANEL --- */
+        /* --- MENU PAGE --- */
+        .menu-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem; margin-top: 3rem; margin-bottom: 3rem;
+        }
+        .menu-card {
+            background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius);
+            box-shadow: var(--shadow); transition: transform 0.3s;
+            position: relative; overflow: hidden;
+        }
+        .menu-card:hover { transform: translateY(-5px); }
+        .menu-img {
+            width: 100%; height: 200px; background: #eee; border-radius: 8px;
+            margin-bottom: 1rem; object-fit: cover;
+        }
+        .price-tag {
+            background: var(--primary); color: #fff; padding: 0.3rem 0.8rem;
+            border-radius: 20px; position: absolute; top: 25px; right: 25px; font-weight: bold;
+        }
+        .tags { font-size: 0.8rem; color: var(--secondary); font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; display: block; }
+        
+        /* --- PRE-ORDER & FORMS --- */
+        .order-layout { display: flex; gap: 4rem; flex-wrap: wrap; }
+        .order-form-container { flex: 2; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .order-summary { flex: 1; background: var(--primary); color: white; padding: 2rem; border-radius: var(--radius); height: fit-content; }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 1rem; border: 2px solid #eee; border-radius: 8px;
+            font-family: inherit; font-size: 1rem; outline: none; transition: 0.2s;
+        }
+        .form-group input:focus { border-color: var(--secondary); }
+        
+        /* --- ADMIN DASHBOARD STYLES --- */
         .admin-dashboard { background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); }
         .admin-table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
-        .admin-table th { text-align: left; padding: 1rem; background: var(--primary); color: white; }
-        .admin-table td { padding: 1rem; border-bottom: 1px solid #eee; }
-        .delete-btn { background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; }
-        
-        /* --- FOOTER --- */
-        footer { background: var(--primary); color: rgba(255,255,255,0.8); text-align: center; padding: 3rem 0; margin-top: 5rem; }
-        .admin-link { color: rgba(255,255,255,0.1); text-decoration: none; font-size: 0.8rem; cursor: pointer; }
-        .admin-link:hover { color: var(--secondary); }
+        .admin-table th { text-align: left; padding: 1rem; background: var(--primary); color: white; border-radius: 8px 8px 0 0; }
+        .admin-table td { padding: 1rem; border-bottom: 1px solid #eee; vertical-align: middle; }
+        .delete-btn { background: var(--danger); color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .delete-btn:hover { background: #c0392b; }
+        .admin-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
+        /* --- ABOUT & CONTACT --- */
+        .about-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .contact-details { margin-top: 2rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .detail-box { text-align: center; padding: 2rem; background: white; border-radius: var(--radius); box-shadow: var(--shadow); }
+        .detail-icon { font-size: 2rem; color: var(--secondary); margin-bottom: 1rem; }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--primary); color: rgba(255,255,255,0.8);
+            text-align: center; padding: 3rem 0; margin-top: 5rem;
+        }
+        .admin-link { color: rgba(255,255,255,0.2); text-decoration: none; font-size: 0.85rem; cursor: pointer; transition: 0.3s; }
+        .admin-link:hover { color: var(--secondary); }
+        
+        /* --- MOBILE --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .hero { flex-direction: column-reverse; text-align: center; height: auto; padding-top: 120px; padding-bottom: 50px; }
+            .hero-text { padding-right: 0; }
+            .nav-links { display: none; }
+            .about-split { grid-template-columns: 1fr; }
+            .contact-details { grid-template-columns: 1fr; }
+            .admin-split { grid-template-columns: 1fr; }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <nav>
-        <div class="logo" onclick="switchPage('home')">Varikkans<span> Tea Company</span>.</div>
+        <div class="logo" onclick="switchPage('home')">Savory<span>Loft</span>.</div>
         <ul class="nav-links">
             <li class="nav-item active" onclick="switchPage('home')">Home</li>
             <li class="nav-item" onclick="switchPage('menu')">Today's Menu</li>
             <li class="nav-item" onclick="switchPage('about')">Our Story</li>
             <li class="nav-item" onclick="switchPage('contact')">Contact</li>
         </ul>
-        <button class="cta-btn" onclick="switchPage('preorder')">Pre-Order</button>
+        <button class="cta-btn" onclick="switchPage('preorder')">Pre-Order Now</button>
     </nav>
 
     <section id="home" class="page active">
         <div class="container hero">
             <div class="hero-text">
                 <h1>Taste the Soul <br>of Fresh Ingredients.</h1>
-                <p>Welcome to Varikkans Tea Company. Where rustic charm meets modern flavor.</p>
+                <p>Experience a culinary journey where rustic charm meets modern flavor. Freshly sourced, lovingly prepared, and served with a side of joy.</p>
                 <button class="cta-btn" onclick="switchPage('menu')">View Today's Menu</button>
+                <span style="margin-left: 15px; font-weight: bold; color: var(--secondary);">★ 4.9/5 Rating</span>
             </div>
             <div class="hero-img">
-                <div class="plate-img"></div>
+                <div class="plate-img"></div> <div class="badge">
+                    Fresh<br>Daily
+                </div>
+            </div>
+        </div>
+        
+        <div class="container" style="margin-top: -50px; position: relative; z-index: 2;">
+            <div style="background: var(--secondary); color: white; padding: 2rem; border-radius: var(--radius); display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow);">
+                <div>
+                    <h3>Today's Special</h3>
+                    <p>Truffle Infused Mushroom Risotto</p>
+                </div>
+                <h2 style="color: white; margin: 0;">$24</h2>
             </div>
         </div>
     </section>
 
     <section id="menu" class="page">
         <div class="container">
-            <div style="text-align: center;">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <span style="color: var(--secondary); font-weight: bold; letter-spacing: 2px;">DAILY ROTATION</span>
                 <h2>Today's Menu</h2>
-                <p>Live updates from the kitchen.</p>
+                <p>Chef's curation for <script>document.write(new Date().toLocaleDateString())</script></p>
             </div>
-            <div class="menu-grid" id="public-menu-container">
-                <p style="text-align:center; width:100%;">Loading fresh menu...</p>
-            </div>
+
+            <div class="menu-grid" id="menu-container">
+                </div>
         </div>
     </section>
 
     <section id="preorder" class="page">
         <div class="container">
-            <div style="text-align: center; margin-bottom: 2rem;"><h2>Pre-Order</h2></div>
-            <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
-                <form onsubmit="event.preventDefault(); alert('Order Placed!');">
-                    <label>Name</label><input type="text" required>
-                    <label>Phone</label><input type="tel" required>
-                    <label>Items</label><textarea placeholder="List items here..." required></textarea>
-                    <button class="cta-btn" style="width:100%">Confirm</button>
-                </form>
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2>Pre-Order Your Meal</h2>
+                <p>Skip the wait. Your food will be ready when you arrive.</p>
+            </div>
+
+            <div class="order-layout">
+                <div class="order-form-container">
+                    <h3>Your Details</h3>
+                    <form onsubmit="event.preventDefault(); alert('Order Placed Successfully! We will email you the confirmation.');">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" placeholder="+1 (555) 000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Pickup Time</label>
+                            <input type="datetime-local" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Special Instructions</label>
+                            <textarea rows="4" placeholder="No peanuts, extra spicy..."></textarea>
+                        </div>
+                        <button type="submit" class="cta-btn" style="width: 100%;">Confirm Order</button>
+                    </form>
+                </div>
+
+                <div class="order-summary">
+                    <h3 style="color: white; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 1rem;">How it works</h3>
+                    <ul style="list-style: none; margin-top: 1.5rem;">
+                        <li style="margin-bottom: 1rem;"><strong>1. Choose Items</strong><br><small style="opacity: 0.8;">Browse the menu and call us to add specific items.</small></li>
+                        <li style="margin-bottom: 1rem;"><strong>2. Select Time</strong><br><small style="opacity: 0.8;">Pick a slot that suits you.</small></li>
+                        <li style="margin-bottom: 1rem;"><strong>3. Arrive & Eat</strong><br><small style="opacity: 0.8;">Table reserved, food hot.</small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="page">
+        <div class="container">
+            <div class="about-split">
+                <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?q=80&w=2070&auto=format&fit=crop" style="width: 100%; border-radius: var(--radius); box-shadow: var(--shadow);" alt="Chefs cooking">
+                <div>
+                    <h2>Our Story</h2>
+                    <p style="margin-bottom: 1.5rem;">Started in 2015, The Savory Loft began with a simple mission: to bring the farm-to-table experience to the heart of the city.</p>
+                    <p style="margin-bottom: 1.5rem;">Our executive chef, Elena Rostova, believes that food is an emotional experience. We source our vegetables from local community gardens and our spices directly from artisan growers.</p>
+                    <div style="display: flex; gap: 2rem; margin-top: 2rem;">
+                        <div>
+                            <h3 style="color: var(--secondary); font-size: 2rem;">10+</h3>
+                            <small>Years Serving</small>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--secondary); font-size: 2rem;">15k</h3>
+                            <small>Happy Eaters</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <section id="contact" class="page">
-        <div class="container" style="text-align: center;">
-            <h2>Contact Us</h2>
-            <p>123 Culinary Ave, Foodie District | +1 234 567 890</p>
-        </div>
-    </section>
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <h2>Get in Touch</h2>
+                <p>We'd love to hear from you. Book a table or give feedback.</p>
+            </div>
 
-    <section id="about" class="page">
-        <div class="container" style="text-align: center;">
-            <h2>Our Story</h2>
-            <p>Serving quality since 2026.</p>
+            <div class="contact-details">
+                <div class="detail-box">
+                    <div class="detail-icon">📍</div>
+                    <h3>Location</h3>
+                    <p>123 Culinary Avenue,<br>Foodie District, NY 10012</p>
+                </div>
+                <div class="detail-box">
+                    <div class="detail-icon">📞</div>
+                    <h3>Phone</h3>
+                    <p>+1 (234) 567-890<br>Mon-Sun: 10am - 11pm</p>
+                </div>
+                <div class="detail-box">
+                    <div class="detail-icon">✉️</div>
+                    <h3>Email</h3>
+                    <p>hello@savoryloft.com<br>events@savoryloft.com</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <section id="admin-login" class="page">
         <div class="container">
-            <div style="max-width: 400px; margin: 50px auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center;">
-                <h2 style="font-size: 1.5rem;">Admin Access</h2>
-                <input type="text" id="admin-user" placeholder="Username">
-                <input type="password" id="admin-pass" placeholder="Password">
-                <button class="cta-btn" onclick="verifyAdmin()">Login</button>
-                <p id="login-error" style="color: red; margin-top: 10px; display: none;">Invalid Credentials</p>
+            <div style="max-width: 400px; margin: 50px auto; background: white; padding: 3rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center;">
+                <h2 style="font-size: 1.8rem; margin-bottom: 2rem;">Admin Portal</h2>
+                <div class="form-group">
+                    <input type="text" id="admin-user" placeholder="Username (admin)">
+                </div>
+                <div class="form-group">
+                    <input type="password" id="admin-pass" placeholder="Password (admin123)">
+                </div>
+                <button class="cta-btn" onclick="verifyAdmin()" style="width: 100%;">Login</button>
+                <p id="login-error" style="color: var(--danger); margin-top: 15px; display: none; font-weight: bold;">Invalid Credentials</p>
             </div>
         </div>
     </section>
@@ -199,23 +336,26 @@
             </div>
 
             <div class="admin-dashboard">
-                <h3>Add New Item</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <input type="text" id="new-name" placeholder="Item Name">
-                    <input type="text" id="new-price" placeholder="Price (e.g., $15)">
-                    <input type="text" id="new-cat" placeholder="Category (Mains, Starters)">
-                    <input type="text" id="new-img" placeholder="Image URL">
+                <h3 style="margin-bottom: 1.5rem;">Add New Item</h3>
+                <div class="admin-split">
+                    <div class="form-group"><input type="text" id="new-name" placeholder="Item Name"></div>
+                    <div class="form-group"><input type="text" id="new-price" placeholder="Price (e.g. $15)"></div>
                 </div>
-                <textarea id="new-desc" placeholder="Description" rows="2"></textarea>
+                <div class="admin-split">
+                    <div class="form-group"><input type="text" id="new-cat" placeholder="Category (e.g. Mains)"></div>
+                    <div class="form-group"><input type="text" id="new-img" placeholder="Image URL (Optional)"></div>
+                </div>
+                <div class="form-group"><textarea id="new-desc" placeholder="Description" rows="2"></textarea></div>
                 <button class="cta-btn" onclick="addItem()">Add to Menu</button>
             </div>
 
             <table class="admin-table">
                 <thead>
                     <tr>
-                        <th>Image</th>
+                        <th width="100">Image</th>
                         <th>Name</th>
                         <th>Price</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -226,77 +366,115 @@
     </section>
 
     <footer>
-        <p>&copy; 2026 Varikkans Tea Stall.</p>
+        <p>&copy; 2024 The Savory Loft. Designed with ❤️ for Foodies.</p>
+        <br>
         <a class="admin-link" onclick="switchPage('admin-login')">Admin Login</a>
     </footer>
 
     <script>
-        // --- CONFIG ---
-        const API_URL = '/api'; // Automatically points to your Vercel API
+        // --- DATA STATE ---
+        // We use a local array for demonstration. In a real app, this would come from a database.
+        let menuItems = [
+            {
+                id: 1,
+                name: "Smoked Salmon Bagel",
+                price: "$14",
+                category: "Brunch",
+                img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=2070&auto=format&fit=crop",
+                desc: "House-smoked salmon, dill cream cheese, capers, on a toasted everything bagel."
+            },
+            {
+                id: 2,
+                name: "Avocado Toast Deluxe",
+                price: "$12",
+                category: "Healthy",
+                img: "https://images.unsplash.com/photo-1588137372308-15f75323a399?q=80&w=2070&auto=format&fit=crop",
+                desc: "Smashed avocado, poached egg, chili flakes, radish, on sourdough."
+            },
+            {
+                id: 3,
+                name: "Wagyu Beef Burger",
+                price: "$22",
+                category: "Mains",
+                img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=1998&auto=format&fit=crop",
+                desc: "Premium wagyu patty, caramelized onions, gruyere cheese, truffle mayo."
+            },
+            {
+                id: 4,
+                name: "Wild Mushroom Pasta",
+                price: "$19",
+                category: "Mains",
+                img: "https://images.unsplash.com/photo-1626844131082-256783844137?q=80&w=1935&auto=format&fit=crop",
+                desc: "Handmade tagliatelle, wild mushrooms, parmesan, white wine sauce."
+            },
+            {
+                id: 5,
+                name: "Berry Bliss Pancakes",
+                price: "$15",
+                category: "Sweet",
+                img: "https://images.unsplash.com/photo-1528207776546-365bb710ee93?q=80&w=2070&auto=format&fit=crop",
+                desc: "Fluffy buttermilk pancakes, fresh berries, maple syrup, vanilla whip."
+            }
+        ];
 
-        // --- NAVIGATION ---
+        // --- PAGE NAVIGATION ---
         function switchPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show selected page
             document.getElementById(pageId).classList.add('active');
+            
+            // Update Nav Active State
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find the nav item that matches the page
+            const navMap = { 'home': 0, 'menu': 1, 'about': 2, 'contact': 3 };
+            if (navMap[pageId] !== undefined) {
+                document.querySelectorAll('.nav-item')[navMap[pageId]].classList.add('active');
+            }
+            
+            // Scroll to top
             window.scrollTo(0,0);
         }
 
-        // --- DATA FETCHING ---
-        async function fetchMenu() {
-            try {
-                const response = await fetch(`${API_URL}/menu`);
-                if (!response.ok) throw new Error('Failed to fetch');
-                const menuData = await response.json();
-                
-                renderMenu(menuData);
-                renderAdminTable(menuData); // Update admin view implicitly if logged in
-            } catch (error) {
-                console.error("Error loading menu:", error);
-                document.getElementById('public-menu-container').innerHTML = "<p>Failed to load menu. Please try again later.</p>";
-            }
-        }
-
-        // --- RENDERING ---
-        function renderMenu(menuData) {
-            const container = document.getElementById('public-menu-container');
-            container.innerHTML = '';
+        // --- RENDERING LOGIC ---
+        function renderMenu() {
+            // 1. Render Public Menu
+            const publicContainer = document.getElementById('menu-container');
+            publicContainer.innerHTML = '';
             
-            if(menuData.length === 0) {
-                container.innerHTML = '<p>No items on the menu yet.</p>';
-                return;
-            }
-
-            menuData.forEach(item => {
+            menuItems.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'menu-card';
-                // Note: using item.description (from Prisma)
                 card.innerHTML = `
                     <span class="price-tag">${item.price}</span>
                     <img src="${item.img}" alt="${item.name}" class="menu-img">
                     <span class="tags">${item.category}</span>
                     <h3>${item.name}</h3>
-                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">${item.description}</p>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">${item.desc}</p>
                     <button class="cta-btn" style="margin-top: 1rem; font-size: 0.8rem; padding: 0.4rem 1rem;" onclick="switchPage('preorder')">Add to Order</button>
                 `;
-                container.appendChild(card);
+                publicContainer.appendChild(card);
             });
-        }
 
-        function renderAdminTable(menuData) {
-            // If menuData isn't passed, we don't render. 
-            // Ideally we fetch specifically for admin, but reusing fetchMenu() is efficient here.
-            const tbody = document.getElementById('admin-menu-list');
-            tbody.innerHTML = '';
+            // 2. Render Admin Table
+            const adminTbody = document.getElementById('admin-menu-list');
+            adminTbody.innerHTML = '';
 
-            menuData.forEach(item => {
+            menuItems.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td><img src="${item.img}" style="width:50px; height:50px; border-radius:5px; object-fit:cover;"></td>
                     <td><strong>${item.name}</strong></td>
                     <td>${item.price}</td>
+                    <td><span style="font-size:0.8rem; background:#eee; padding:2px 6px; border-radius:4px;">${item.category}</span></td>
                     <td><button class="delete-btn" onclick="deleteItem(${item.id})">Delete</button></td>
                 `;
-                tbody.appendChild(row);
+                adminTbody.appendChild(row);
             });
         }
 
@@ -306,16 +484,14 @@
             const pass = document.getElementById('admin-pass').value;
 
             // Simple client-side check. 
-            // Since we didn't build a secure /api/login endpoint, we keep this simple.
-            if (user === 'admin' && pass === 'admin321') {
+            if (user === 'admin' && pass === 'admin123') {
                 document.getElementById('admin-user').value = '';
                 document.getElementById('admin-pass').value = '';
+                document.getElementById('login-error').style.display = 'none';
                 switchPage('admin-dashboard');
-                fetchMenu(); // Refresh data to ensure table is up to date
             } else {
                 const error = document.getElementById('login-error');
                 error.style.display = 'block';
-                setTimeout(() => error.style.display = 'none', 3000);
             }
         }
 
@@ -323,64 +499,49 @@
             switchPage('home');
         }
 
-        async function addItem() {
+        function addItem() {
             const name = document.getElementById('new-name').value;
             const price = document.getElementById('new-price').value;
             const category = document.getElementById('new-cat').value;
-            const img = document.getElementById('new-img').value || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c';
-            const description = document.getElementById('new-desc').value;
+            // Default placeholder image if none provided
+            const img = document.getElementById('new-img').value || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop';
+            const desc = document.getElementById('new-desc').value;
 
             if(!name || !price) { alert("Name and Price are required!"); return; }
 
-            const newItem = { name, price, category, img, description };
+            const newItem = {
+                id: Date.now(), // Generate a unique ID based on timestamp
+                name, 
+                price, 
+                category, 
+                img, 
+                desc
+            };
 
-            try {
-                const response = await fetch(`${API_URL}/menu`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(newItem)
-                });
+            // Add to local array
+            menuItems.push(newItem);
+            
+            // Clear Inputs
+            document.getElementById('new-name').value = '';
+            document.getElementById('new-price').value = '';
+            document.getElementById('new-cat').value = '';
+            document.getElementById('new-img').value = '';
+            document.getElementById('new-desc').value = '';
 
-                if (response.ok) {
-                    // Clear inputs
-                    document.getElementById('new-name').value = '';
-                    document.getElementById('new-price').value = '';
-                    document.getElementById('new-cat').value = '';
-                    document.getElementById('new-img').value = '';
-                    document.getElementById('new-desc').value = '';
-                    
-                    alert('Item Added Successfully!');
-                    fetchMenu(); // Reload list
-                } else {
-                    alert('Failed to add item.');
-                }
-            } catch (err) {
-                console.error(err);
-                alert('Error connecting to server.');
-            }
+            // Re-render
+            renderMenu();
+            alert('Item Added!');
         }
 
-        async function deleteItem(id) {
+        function deleteItem(id) {
             if(confirm("Are you sure you want to delete this item?")) {
-                try {
-                    // We send ID as a query parameter
-                    const response = await fetch(`${API_URL}/menu?id=${id}`, {
-                        method: 'DELETE'
-                    });
-
-                    if (response.ok) {
-                        fetchMenu(); // Reload list
-                    } else {
-                        alert('Failed to delete item.');
-                    }
-                } catch (err) {
-                    console.error(err);
-                }
+                menuItems = menuItems.filter(item => item.id !== id);
+                renderMenu();
             }
         }
 
         // --- INITIAL LOAD ---
-        fetchMenu();
+        renderMenu();
 
     </script>
 </body>
