@@ -1,17 +1,10 @@
-// prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
-  
-  // Do NOT replace this with the long URL. Keep it exactly like this:
-  url = env("POSTGRES_PRISMA_URL") 
-  
-  // This is used for migrations. Keep it exactly like this:
-  directUrl = env("POSTGRES_URL_NON_POOLING")
-}
-
-generator client {
-  provider = "prisma-client-js"
+  url      = env("DATABASE_URL")
 }
 
 model MenuItem {
@@ -20,6 +13,6 @@ model MenuItem {
   price       String
   category    String
   img         String
-  description String
+  description String?
   createdAt   DateTime @default(now())
 }
