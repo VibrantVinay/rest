@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Varikkans Tea Company | Est. 2026</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
@@ -32,308 +32,215 @@
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 html { scroll-behavior: smooth; }
-
 body {
   font-family: var(--font-body);
   background: var(--dark);
   color: var(--cream);
   line-height: 1.6;
   overflow-x: hidden;
-  cursor: default;
 }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--dark); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
-
-/* SELECTION */
 ::selection { background: var(--gold); color: var(--ink); }
 
-/* ===========================
-   LOADING SCREEN
-=========================== */
+/* LOADER */
 #loader {
   position: fixed; inset: 0;
   background: var(--ink);
   z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
   transition: opacity 0.8s ease, visibility 0.8s ease;
 }
 #loader.hidden { opacity: 0; visibility: hidden; }
 .loader-logo {
   font-family: var(--font-title);
-  font-size: 2rem;
+  font-size: clamp(1.2rem, 5vw, 2rem);
   color: var(--gold);
   letter-spacing: 6px;
   animation: pulse 1.5s ease-in-out infinite;
 }
-.loader-bar {
-  width: 200px; height: 1px;
-  background: var(--surface);
-  margin-top: 2rem;
-  overflow: hidden;
-}
-.loader-fill {
-  height: 100%;
-  background: var(--gold);
-  animation: loadFill 1.8s ease forwards;
-}
+.loader-bar { width: min(200px, 70vw); height: 1px; background: var(--surface); margin-top: 2rem; overflow: hidden; }
+.loader-fill { height: 100%; background: var(--gold); animation: loadFill 1.8s ease forwards; }
 @keyframes pulse { 0%,100%{ opacity: 0.5 } 50%{ opacity: 1 } }
 @keyframes loadFill { 0%{ width:0% } 100%{ width:100% } }
 
-/* ===========================
-   NAVIGATION
-=========================== */
+/* NAVIGATION */
 nav {
   position: fixed; top: 0; width: 100%;
   z-index: 1000;
   padding: 0 5%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  height: 70px;
+  display: flex; align-items: center; justify-content: space-between;
   transition: var(--transition);
 }
 nav.scrolled {
   background: rgba(14,14,14,0.97);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(201,169,110,0.15);
-  height: 70px;
+  height: 60px;
 }
 .nav-logo {
   font-family: var(--font-title);
-  font-size: 1.1rem;
+  font-size: clamp(0.75rem, 2.5vw, 1.1rem);
   letter-spacing: 3px;
   color: var(--gold);
   cursor: pointer;
   text-transform: uppercase;
   transition: var(--transition);
+  flex-shrink: 0;
 }
 .nav-logo:hover { opacity: 0.8; }
 .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
+  list-style: none; display: flex; gap: 2rem; align-items: center;
 }
 .nav-item {
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 500;
-  color: rgba(250,246,240,0.7);
-  cursor: pointer;
-  transition: var(--transition);
-  position: relative;
-  padding-bottom: 4px;
+  font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase;
+  font-weight: 500; color: rgba(250,246,240,0.7);
+  cursor: pointer; transition: var(--transition);
+  position: relative; padding-bottom: 4px; white-space: nowrap;
 }
 .nav-item::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0;
-  width: 0; height: 1px;
-  background: var(--gold);
-  transition: var(--transition);
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 1px; background: var(--gold); transition: var(--transition);
 }
 .nav-item:hover, .nav-item.active { color: var(--gold); }
 .nav-item:hover::after, .nav-item.active::after { width: 100%; }
-
 .nav-cta {
-  background: transparent;
-  border: 1px solid var(--gold);
-  color: var(--gold);
-  padding: 0.6rem 1.5rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  border-radius: 0;
+  background: transparent; border: 1px solid var(--gold); color: var(--gold);
+  padding: 0.5rem 1.2rem; font-family: var(--font-body); font-size: 0.68rem;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  transition: var(--transition); white-space: nowrap; flex-shrink: 0;
 }
 .nav-cta:hover { background: var(--gold); color: var(--ink); }
 
+/* HAMBURGER */
 .hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
-  padding: 5px;
+  display: none; flex-direction: column; gap: 5px;
+  cursor: pointer; padding: 8px; z-index: 1001;
+  background: none; border: none; outline: none;
 }
 .hamburger span {
-  display: block; width: 24px; height: 1px;
-  background: var(--gold);
-  transition: var(--transition);
+  display: block; width: 24px; height: 1.5px;
+  background: var(--gold); transition: var(--transition);
+  transform-origin: center;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  z-index: 999;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 1.5rem;
+  transform: translateX(-100%);
+  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-nav-item {
+  font-family: var(--font-display); font-size: clamp(1.8rem, 7vw, 2.5rem);
+  font-style: italic; font-weight: 300;
+  color: rgba(250,246,240,0.5); cursor: pointer; transition: var(--transition);
+}
+.mobile-nav-item:hover, .mobile-nav-item:active { color: var(--gold); }
+.mobile-menu-footer {
+  position: absolute; bottom: 3rem;
+  font-size: 0.7rem; color: var(--muted); letter-spacing: 2px;
+  text-transform: uppercase; text-align: center;
 }
 
-/* ===========================
-   PAGE SYSTEM
-=========================== */
-.page { display: none; min-height: 100vh; animation: pageIn 0.6s ease; }
+/* PAGE SYSTEM */
+.page { display: none; min-height: 100vh; animation: pageIn 0.5s ease; }
 .page.active { display: block; }
-@keyframes pageIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pageIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
 .container { max-width: 1280px; margin: 0 auto; padding: 0 5%; }
-.section { padding: 120px 0; }
+.section { padding: 80px 0; }
 
-/* ===========================
-   TYPOGRAPHY SYSTEM
-=========================== */
+/* TYPOGRAPHY */
 .label {
-  font-size: 0.65rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-  display: block;
-  margin-bottom: 1rem;
+  font-size: 0.65rem; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; display: block; margin-bottom: 1rem;
 }
 .display-title {
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 8vw, 7rem);
-  font-weight: 300;
-  line-height: 1.0;
-  color: var(--cream);
-  letter-spacing: -1px;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-weight: 300; line-height: 1.0; color: var(--cream); letter-spacing: -1px;
 }
 .display-title em { font-style: italic; color: var(--gold); }
 .section-title {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  font-weight: 300;
-  color: var(--cream);
-  line-height: 1.1;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 300; color: var(--cream); line-height: 1.1;
 }
 .section-title em { font-style: italic; color: var(--gold); }
-.body-text {
-  font-size: 0.95rem;
-  color: var(--muted);
-  line-height: 1.8;
-  font-weight: 300;
-}
-
-/* GOLD DIVIDER */
-.divider {
-  display: flex; align-items: center; gap: 1rem;
-  margin: 2rem 0;
-}
-.divider::before, .divider::after {
-  content: ''; flex: 1; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold-dark));
-}
+.body-text { font-size: 0.95rem; color: var(--muted); line-height: 1.8; font-weight: 300; }
+.divider { display: flex; align-items: center; gap: 1rem; margin: 2rem 0; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(to right, transparent, var(--gold-dark)); }
 .divider::after { background: linear-gradient(to left, transparent, var(--gold-dark)); }
 .divider-icon { color: var(--gold); font-size: 0.8rem; }
 
-/* ===========================
-   BUTTONS
-=========================== */
+/* BUTTONS */
 .btn-primary {
   display: inline-flex; align-items: center; gap: 0.75rem;
-  background: var(--gold);
-  color: var(--ink);
-  padding: 1rem 2.5rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
-  text-decoration: none;
+  background: var(--gold); color: var(--ink);
+  padding: 0.9rem 2rem; font-family: var(--font-body);
+  font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase;
+  font-weight: 600; border: none; cursor: pointer; transition: var(--transition);
+  text-decoration: none; touch-action: manipulation;
 }
 .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(201,169,110,0.3); }
-
 .btn-outline {
   display: inline-flex; align-items: center; gap: 0.75rem;
-  background: transparent;
-  color: var(--gold);
-  padding: 0.9rem 2.5rem;
-  border: 1px solid var(--gold);
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
+  background: transparent; color: var(--gold);
+  padding: 0.85rem 2rem; border: 1px solid var(--gold);
+  font-family: var(--font-body); font-size: 0.7rem;
+  letter-spacing: 3px; text-transform: uppercase;
+  font-weight: 600; cursor: pointer; transition: var(--transition); touch-action: manipulation;
 }
 .btn-outline:hover { background: var(--gold); color: var(--ink); }
 .btn-arrow { font-size: 1rem; transition: transform 0.3s; }
 .btn-primary:hover .btn-arrow, .btn-outline:hover .btn-arrow { transform: translateX(5px); }
 
-/* ===========================
-   HOME — HERO
-=========================== */
+/* HERO */
 #home { padding-top: 0; }
-
 .hero {
-  height: 100vh;
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  overflow: hidden;
+  min-height: 100vh; position: relative;
+  display: grid; grid-template-columns: 1fr 1fr; overflow: hidden;
 }
 .hero-left {
-  background: var(--ink);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 10% 8% 8%;
-  position: relative;
-  z-index: 2;
+  background: var(--ink); display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 10% 8% 8%; position: relative; z-index: 2;
 }
-.hero-right {
-  position: relative;
-  overflow: hidden;
-}
+.hero-right { position: relative; overflow: hidden; }
 .hero-right::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(to right, var(--ink), transparent 30%),
-              linear-gradient(to top, rgba(14,14,14,0.6), transparent 50%);
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to right, var(--ink), transparent 30%), linear-gradient(to top, rgba(14,14,14,0.6), transparent 50%);
 }
 .hero-bg {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transform: scale(1.05);
-  animation: heroZoom 8s ease forwards;
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.05); animation: heroZoom 8s ease forwards;
 }
 @keyframes heroZoom { to { transform: scale(1); } }
-
 .hero-tag {
-  font-family: var(--font-title);
-  font-size: 0.6rem;
-  letter-spacing: 5px;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  font-family: var(--font-title); font-size: 0.6rem; letter-spacing: 5px;
+  color: var(--gold); text-transform: uppercase; margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 1rem;
 }
 .hero-tag::before { content: ''; display: block; width: 40px; height: 1px; background: var(--gold); }
 .hero-scroll {
-  position: absolute;
-  bottom: 8%;
-  right: 5%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  z-index: 10;
+  position: absolute; bottom: 8%; right: 5%;
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem; z-index: 10;
 }
 .hero-scroll span {
-  font-size: 0.6rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(250,246,240,0.4);
-  writing-mode: vertical-rl;
+  font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(250,246,240,0.4); writing-mode: vertical-rl;
 }
 .scroll-line {
   width: 1px; height: 60px;
@@ -341,1259 +248,464 @@ nav.scrolled {
   animation: scrollAnim 2s ease-in-out infinite;
 }
 @keyframes scrollAnim { 0%,100%{ opacity:0.4; transform:scaleY(0.5) } 50%{ opacity:1; transform:scaleY(1) } }
-
 .hero-stats {
-  display: flex;
-  gap: 3rem;
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(201,169,110,0.2);
+  display: flex; gap: 2rem; margin-top: 2.5rem;
+  padding-top: 1.5rem; border-top: 1px solid rgba(201,169,110,0.2); flex-wrap: wrap;
 }
-.stat-num {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--gold);
-  line-height: 1;
-}
-.stat-label {
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-top: 0.25rem;
-}
+.stat-num { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 300; color: var(--gold); line-height: 1; }
+.stat-label { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 0.25rem; }
 
-/* FLOATING BADGE */
 .floating-badge {
-  position: absolute;
-  bottom: 15%;
-  right: 8%;
-  z-index: 20;
-  background: rgba(14,14,14,0.9);
-  border: 1px solid rgba(201,169,110,0.3);
-  backdrop-filter: blur(10px);
-  padding: 1.5rem;
-  min-width: 200px;
+  position: absolute; bottom: 15%; right: 8%; z-index: 20;
+  background: rgba(14,14,14,0.9); border: 1px solid rgba(201,169,110,0.3);
+  backdrop-filter: blur(10px); padding: 1.2rem; min-width: 180px;
   animation: floatUp 1s ease 2s both;
 }
 @keyframes floatUp { from{ opacity:0; transform:translateY(20px) } to{ opacity:1; transform:translateY(0) } }
 .badge-day { font-size: 0.6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-.badge-title {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-style: italic;
-  color: var(--cream);
-  margin: 0.3rem 0;
-}
-.badge-price { color: var(--gold); font-weight: 600; font-size: 1.1rem; }
-.badge-dot {
-  width: 8px; height: 8px;
-  background: var(--success);
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 6px;
-  animation: blink 2s infinite;
-}
+.badge-title { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--cream); margin: 0.3rem 0; }
+.badge-price { color: var(--gold); font-weight: 600; font-size: 1rem; }
+.badge-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 6px; animation: blink 2s infinite; }
 @keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:0.3 } }
 
-/* ===========================
-   HOME — FEATURES STRIP
-=========================== */
+/* FEATURES STRIP */
 .features-strip {
-  background: var(--mid);
-  padding: 3rem 5%;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border-top: 1px solid rgba(201,169,110,0.1);
-  border-bottom: 1px solid rgba(201,169,110,0.1);
+  background: var(--mid); padding: 2.5rem 5%;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+  border-top: 1px solid rgba(201,169,110,0.1); border-bottom: 1px solid rgba(201,169,110,0.1);
 }
 .feature-item {
-  padding: 2rem 2.5rem;
-  border-right: 1px solid rgba(201,169,110,0.1);
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  transition: var(--transition);
+  padding: 1.5rem 2rem; border-right: 1px solid rgba(201,169,110,0.1);
+  display: flex; align-items: center; gap: 1.2rem; transition: var(--transition);
 }
 .feature-item:last-child { border-right: none; }
 .feature-item:hover { background: rgba(201,169,110,0.05); }
-.feature-icon { font-size: 1.8rem; flex-shrink: 0; }
-.feature-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 400;
-  color: var(--cream);
-  margin-bottom: 0.2rem;
-}
-.feature-sub { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.5px; }
+.feature-icon { font-size: 1.6rem; flex-shrink: 0; }
+.feature-title { font-family: var(--font-display); font-size: 1rem; font-weight: 400; color: var(--cream); margin-bottom: 0.2rem; }
+.feature-sub { font-size: 0.72rem; color: var(--muted); }
 
-/* ===========================
-   HOME — SIGNATURE SECTION
-=========================== */
-.signature-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  min-height: 600px;
-}
-.signature-image {
-  position: relative;
-  overflow: hidden;
-}
-.signature-image img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s ease;
-}
+/* SIGNATURE GRID */
+.signature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 550px; }
+.signature-image { position: relative; overflow: hidden; }
+.signature-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
 .signature-image:hover img { transform: scale(1.03); }
-.sig-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(14,14,14,0.3), transparent);
-}
-.signature-content {
-  background: var(--mid);
-  padding: 8% 7%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.ingredient-list {
-  list-style: none;
-  margin: 2rem 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.ingredient-list li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.85rem;
-  color: rgba(250,246,240,0.7);
-  font-weight: 300;
-}
-.ingredient-list li::before {
-  content: '';
-  display: block;
-  width: 20px; height: 1px;
-  background: var(--gold);
-  flex-shrink: 0;
-}
+.sig-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(14,14,14,0.3), transparent); }
+.signature-content { background: var(--mid); padding: 7% 6%; display: flex; flex-direction: column; justify-content: center; }
+.ingredient-list { list-style: none; margin: 1.5rem 0; display: flex; flex-direction: column; gap: 0.85rem; }
+.ingredient-list li { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; color: rgba(250,246,240,0.7); font-weight: 300; }
+.ingredient-list li::before { content: ''; display: block; width: 20px; height: 1px; background: var(--gold); flex-shrink: 0; }
 
-/* ===========================
-   HOME — TESTIMONIALS
-=========================== */
-.testimonials {
-  background: var(--ink);
-  padding: 100px 0;
-  overflow: hidden;
-}
-.testimonials-header { text-align: center; margin-bottom: 4rem; }
-.testimonial-track {
-  display: flex;
-  gap: 2rem;
-  animation: scrollTrack 30s linear infinite;
-  width: max-content;
-}
+/* TESTIMONIALS */
+.testimonials { background: var(--ink); padding: 80px 0; overflow: hidden; }
+.testimonials-header { text-align: center; margin-bottom: 3rem; padding: 0 5%; }
+.testimonial-track { display: flex; gap: 2rem; animation: scrollTrack 30s linear infinite; width: max-content; }
 .testimonial-track:hover { animation-play-state: paused; }
 @keyframes scrollTrack { from{ transform:translateX(0) } to{ transform:translateX(-50%) } }
 .testimonial-card {
-  background: var(--mid);
-  border: 1px solid rgba(201,169,110,0.1);
-  padding: 2rem 2.5rem;
-  min-width: 380px;
-  position: relative;
-  flex-shrink: 0;
+  background: var(--mid); border: 1px solid rgba(201,169,110,0.1);
+  padding: 2rem 2.5rem; min-width: 340px; max-width: 380px;
+  position: relative; flex-shrink: 0;
 }
-.testimonial-quote {
-  font-family: var(--font-display);
-  font-size: 1.2rem;
-  font-style: italic;
-  color: var(--cream);
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
+.testimonial-quote { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--cream); line-height: 1.6; margin-bottom: 1.5rem; }
 .testimonial-meta { display: flex; align-items: center; gap: 1rem; }
-.testimonial-avatar {
-  width: 44px; height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(201,169,110,0.3);
-}
-.testimonial-name { font-weight: 600; font-size: 0.85rem; color: var(--cream); }
+.testimonial-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(201,169,110,0.3); }
+.testimonial-name { font-weight: 600; font-size: 0.83rem; color: var(--cream); }
 .testimonial-country { font-size: 0.7rem; color: var(--muted); }
 .star-rating { color: var(--gold); font-size: 0.8rem; margin-bottom: 0.5rem; }
-.quote-mark {
-  position: absolute; top: 1.5rem; right: 1.5rem;
-  font-family: var(--font-display);
-  font-size: 4rem;
-  color: rgba(201,169,110,0.1);
-  line-height: 1;
-  font-style: italic;
-}
+.quote-mark { position: absolute; top: 1.5rem; right: 1.5rem; font-family: var(--font-display); font-size: 4rem; color: rgba(201,169,110,0.08); line-height: 1; font-style: italic; }
 
-/* ===========================
-   HOME — PRESS / AWARDS
-=========================== */
-.press-strip {
-  background: var(--mid);
-  padding: 4rem 5%;
-  text-align: center;
-  border-top: 1px solid rgba(201,169,110,0.1);
-}
-.press-label {
-  font-size: 0.6rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 2rem;
-}
-.press-logos {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4rem;
-  flex-wrap: wrap;
-}
-.press-name {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-style: italic;
-  color: rgba(250,246,240,0.25);
-  transition: var(--transition);
-  cursor: default;
-  font-weight: 300;
-  letter-spacing: 1px;
-}
-.press-name:hover { color: var(--gold); opacity: 1; }
+/* PRESS STRIP */
+.press-strip { background: var(--mid); padding: 3.5rem 5%; text-align: center; border-top: 1px solid rgba(201,169,110,0.1); }
+.press-label { font-size: 0.6rem; letter-spacing: 4px; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; }
+.press-logos { display: flex; align-items: center; justify-content: center; gap: 3rem; flex-wrap: wrap; }
+.press-name { font-family: var(--font-display); font-size: clamp(1rem, 2.5vw, 1.4rem); font-style: italic; color: rgba(250,246,240,0.25); transition: var(--transition); cursor: default; font-weight: 300; letter-spacing: 1px; }
+.press-name:hover { color: var(--gold); }
 
-/* ===========================
-   MENU PAGE
-=========================== */
-.menu-hero {
-  height: 45vh;
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 5%;
-  overflow: hidden;
-}
-.menu-hero-bg {
-  position: absolute; inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop');
-  background-size: cover; background-position: center;
-  filter: brightness(0.3);
-}
+/* MENU PAGE */
+.menu-hero { height: 40vh; min-height: 250px; position: relative; display: flex; align-items: flex-end; padding-bottom: 5%; overflow: hidden; }
+.menu-hero-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center; filter: brightness(0.3); }
 .menu-hero-content { position: relative; z-index: 2; padding: 0 5%; }
-
-.menu-filter {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-.filter-btn {
-  padding: 0.6rem 1.5rem;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  background: transparent;
-  border: 1px solid rgba(201,169,110,0.2);
-  color: var(--muted);
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-body);
-}
-.filter-btn:hover, .filter-btn.active {
-  background: var(--gold);
-  border-color: var(--gold);
-  color: var(--ink);
-}
-
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 1.5px;
-  background: rgba(201,169,110,0.1);
-}
-.menu-card {
-  background: var(--mid);
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-  transition: var(--transition);
-}
+.menu-filter { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.filter-btn { padding: 0.55rem 1.2rem; font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; background: transparent; border: 1px solid rgba(201,169,110,0.2); color: var(--muted); cursor: pointer; transition: var(--transition); font-family: var(--font-body); touch-action: manipulation; }
+.filter-btn:hover, .filter-btn.active { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5px; background: rgba(201,169,110,0.1); }
+.menu-card { background: var(--mid); position: relative; overflow: hidden; cursor: pointer; transition: var(--transition); }
 .menu-card:hover .menu-card-img { transform: scale(1.07); }
-.menu-card-img-wrap { height: 240px; overflow: hidden; position: relative; }
-.menu-card-img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.card-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(14,14,14,0.7), transparent 50%);
-}
-.menu-card-body { padding: 1.5rem 2rem 2rem; }
-.card-category {
-  font-size: 0.6rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-}
-.card-name {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 400;
-  color: var(--cream);
-  margin: 0.4rem 0 0.75rem;
-  line-height: 1.2;
-}
-.card-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 1.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid rgba(201,169,110,0.1);
-}
-.card-price {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 300;
-  color: var(--gold);
-}
-.card-order-btn {
-  background: transparent;
-  border: 1px solid rgba(201,169,110,0.3);
-  color: var(--gold);
-  padding: 0.5rem 1.2rem;
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-body);
-}
+.menu-card-img-wrap { height: 220px; overflow: hidden; position: relative; }
+.menu-card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(14,14,14,0.7), transparent 50%); }
+.menu-card-body { padding: 1.2rem 1.5rem 1.5rem; }
+.card-category { font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.card-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 400; color: var(--cream); margin: 0.35rem 0 0.6rem; line-height: 1.2; }
+.card-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+.card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid rgba(201,169,110,0.1); gap: 0.5rem; flex-wrap: wrap; }
+.card-price { font-family: var(--font-display); font-size: 1.5rem; font-weight: 300; color: var(--gold); }
+.card-order-btn { background: transparent; border: 1px solid rgba(201,169,110,0.3); color: var(--gold); padding: 0.45rem 1rem; font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: var(--transition); font-family: var(--font-body); touch-action: manipulation; }
 .card-order-btn:hover { background: var(--gold); color: var(--ink); }
-.card-badge {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  background: var(--gold);
-  color: var(--ink);
-  font-size: 0.6rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  padding: 0.3rem 0.8rem;
-  font-weight: 700;
-  z-index: 5;
-}
-.dietary-icons { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
-.diet-icon {
-  font-size: 0.7rem;
-  background: rgba(201,169,110,0.1);
-  border: 1px solid rgba(201,169,110,0.2);
-  color: var(--gold);
-  padding: 2px 8px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
+.card-badge { position: absolute; top: 14px; left: 14px; background: var(--gold); color: var(--ink); font-size: 0.58rem; letter-spacing: 2px; text-transform: uppercase; padding: 0.25rem 0.7rem; font-weight: 700; z-index: 5; }
+.dietary-icons { display: flex; gap: 0.5rem; margin-top: 0.5rem; flex-wrap: wrap; }
+.diet-icon { font-size: 0.68rem; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2); color: var(--gold); padding: 2px 7px; letter-spacing: 1px; text-transform: uppercase; }
 
-/* ===========================
-   PRE-ORDER PAGE
-=========================== */
-.preorder-layout {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 3rem;
-  padding: 150px 5% 80px;
-}
-.order-left {}
-.order-form-card {
-  background: var(--mid);
-  border: 1px solid rgba(201,169,110,0.1);
-  padding: 3rem;
-}
-.order-right {}
-.order-timeline {
-  background: var(--ink);
-  border: 1px solid rgba(201,169,110,0.15);
-  padding: 2.5rem;
-  position: sticky;
-  top: 100px;
-}
-.timeline-step {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-}
+/* PRE-ORDER PAGE */
+.preorder-layout { display: grid; grid-template-columns: 1.5fr 1fr; gap: 3rem; padding: 130px 5% 80px; }
+.order-form-card { background: var(--mid); border: 1px solid rgba(201,169,110,0.1); padding: 2.5rem; }
+.order-timeline { background: var(--ink); border: 1px solid rgba(201,169,110,0.15); padding: 2.5rem; position: sticky; top: 80px; }
+.timeline-step { display: flex; gap: 1.5rem; margin-bottom: 2.5rem; }
 .timeline-step:last-child { margin-bottom: 0; }
-.step-num {
-  font-family: var(--font-display);
-  font-size: 2rem;
-  font-weight: 300;
-  color: rgba(201,169,110,0.3);
-  line-height: 1;
-  flex-shrink: 0;
-  width: 40px;
-  transition: var(--transition);
-}
+.step-num { font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; color: rgba(201,169,110,0.3); line-height: 1; flex-shrink: 0; width: 40px; transition: var(--transition); }
 .timeline-step:hover .step-num { color: var(--gold); }
-.step-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  color: var(--cream);
-  margin-bottom: 0.4rem;
-}
+.step-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--cream); margin-bottom: 0.4rem; }
 .step-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
 
 /* FORM STYLES */
-.form-section-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--cream);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(201,169,110,0.1);
+.form-section-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 300; color: var(--cream); margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(201,169,110,0.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.63rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%; padding: 0.85rem 0.9rem; background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(201,169,110,0.15); color: var(--cream);
+  font-family: var(--font-body); font-size: 0.88rem; outline: none;
+  transition: var(--transition); border-radius: 0; -webkit-appearance: none; appearance: none;
 }
-.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.form-group { margin-bottom: 1.5rem; }
-.form-group label {
-  display: block;
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 0.6rem;
-}
-.form-group input,
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  padding: 0.9rem 1rem;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(201,169,110,0.15);
-  color: var(--cream);
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  outline: none;
-  transition: var(--transition);
-  border-radius: 0;
-  -webkit-appearance: none;
-  appearance: none;
-}
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--gold);
-  background: rgba(201,169,110,0.05);
-}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: rgba(201,169,110,0.05); }
 .form-group select option { background: var(--mid); }
-.form-group textarea { resize: vertical; min-height: 100px; }
-.form-group input::placeholder,
-.form-group textarea::placeholder { color: rgba(138,138,138,0.6); font-size: 0.85rem; }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(138,138,138,0.6); font-size: 0.83rem; }
 
-/* Item Picker */
-.item-picker { margin-bottom: 2rem; }
-.picker-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.picker-item {
-  border: 1px solid rgba(201,169,110,0.15);
-  padding: 1rem;
-  cursor: pointer;
-  transition: var(--transition);
-  position: relative;
-}
-.picker-item.selected {
-  border-color: var(--gold);
-  background: rgba(201,169,110,0.08);
-}
+/* ITEM PICKER */
+.item-picker { margin-bottom: 1.5rem; }
+.picker-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 0.85rem; margin-top: 0.85rem; }
+.picker-item { border: 1px solid rgba(201,169,110,0.15); padding: 0.85rem; cursor: pointer; transition: var(--transition); position: relative; touch-action: manipulation; }
+.picker-item.selected { border-color: var(--gold); background: rgba(201,169,110,0.08); }
 .picker-item:hover { border-color: rgba(201,169,110,0.4); }
-.picker-img {
-  width: 100%; height: 80px;
-  object-fit: cover;
-  margin-bottom: 0.75rem;
-  filter: brightness(0.8);
-}
-.picker-name { font-size: 0.82rem; color: var(--cream); font-weight: 500; }
-.picker-price { font-size: 0.75rem; color: var(--gold); margin-top: 0.2rem; }
-.picker-check {
-  position: absolute; top: 8px; right: 8px;
-  width: 20px; height: 20px;
-  background: var(--gold);
-  border-radius: 50%;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  color: var(--ink);
-  font-weight: 700;
-}
+.picker-img { width: 100%; height: 70px; object-fit: cover; margin-bottom: 0.6rem; filter: brightness(0.8); }
+.picker-name { font-size: 0.78rem; color: var(--cream); font-weight: 500; }
+.picker-price { font-size: 0.72rem; color: var(--gold); margin-top: 0.2rem; }
+.picker-check { position: absolute; top: 7px; right: 7px; width: 18px; height: 18px; background: var(--gold); border-radius: 50%; display: none; align-items: center; justify-content: center; font-size: 0.55rem; color: var(--ink); font-weight: 700; }
 .picker-item.selected .picker-check { display: flex; }
 
-/* ===========================
-   ABOUT PAGE
-=========================== */
-.about-hero {
-  height: 60vh;
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 5%;
-  overflow: hidden;
-}
-.about-hero-bg {
-  position: absolute; inset: 0;
-  background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070&auto=format&fit=crop');
-  background-size: cover; background-position: center 30%;
-  filter: brightness(0.25);
-}
-.about-story {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6rem;
-  align-items: start;
-}
-.story-text { position: sticky; top: 120px; }
+/* ABOUT PAGE */
+.about-hero { height: 55vh; min-height: 280px; position: relative; display: flex; align-items: flex-end; padding-bottom: 5%; overflow: hidden; }
+.about-hero-bg { position: absolute; inset: 0; background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=2070&auto=format&fit=crop'); background-size: cover; background-position: center 30%; filter: brightness(0.25); }
+.about-story { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+.story-text { position: sticky; top: 90px; }
 .story-images { display: flex; flex-direction: column; gap: 1.5px; }
-.story-img {
-  width: 100%;
-  object-fit: cover;
-  transition: var(--transition);
-  filter: brightness(0.85) saturate(0.9);
-}
+.story-img { width: 100%; object-fit: cover; transition: var(--transition); filter: brightness(0.85) saturate(0.9); }
 .story-img:hover { filter: brightness(1) saturate(1.1); transform: scale(1.01); }
 
 /* TEAM */
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 1.5px;
-  background: rgba(201,169,110,0.08);
-}
-.team-card {
-  background: var(--mid);
-  overflow: hidden;
-  position: relative;
-}
-.team-img {
-  width: 100%; height: 320px;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-  filter: grayscale(30%);
-}
+.team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5px; background: rgba(201,169,110,0.08); }
+.team-card { background: var(--mid); overflow: hidden; position: relative; }
+.team-img { width: 100%; height: 300px; object-fit: cover; transition: transform 0.6s ease; filter: grayscale(30%); }
 .team-card:hover .team-img { transform: scale(1.04); filter: grayscale(0%); }
-.team-info {
-  padding: 1.5rem 2rem;
-  background: var(--mid);
-  border-top: 2px solid var(--gold);
-}
-.team-name {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--cream);
-  font-weight: 400;
-}
-.team-role { font-size: 0.7rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
+.team-info { padding: 1.25rem 1.5rem; background: var(--mid); border-top: 2px solid var(--gold); }
+.team-name { font-family: var(--font-display); font-size: 1.25rem; color: var(--cream); font-weight: 400; }
+.team-role { font-size: 0.68rem; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-top: 0.3rem; }
 
 /* VALUES */
-.values-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(201,169,110,0.1);
-}
-.value-box {
-  background: var(--mid);
-  padding: 3rem;
-  transition: var(--transition);
-}
+.values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(201,169,110,0.1); }
+.value-box { background: var(--mid); padding: 2.5rem; transition: var(--transition); }
 .value-box:hover { background: rgba(201,169,110,0.07); }
-.value-num {
-  font-family: var(--font-display);
-  font-size: 3.5rem;
-  font-weight: 300;
-  color: rgba(201,169,110,0.2);
-  line-height: 1;
-  margin-bottom: 1rem;
-  transition: var(--transition);
-}
+.value-num { font-family: var(--font-display); font-size: 3rem; font-weight: 300; color: rgba(201,169,110,0.2); line-height: 1; margin-bottom: 1rem; transition: var(--transition); }
 .value-box:hover .value-num { color: rgba(201,169,110,0.5); }
-.value-title {
-  font-family: var(--font-display);
-  font-size: 1.3rem;
-  color: var(--cream);
-  margin-bottom: 0.75rem;
-}
-.value-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+.value-title { font-family: var(--font-display); font-size: 1.25rem; color: var(--cream); margin-bottom: 0.7rem; }
+.value-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
 
-/* TIMELINE */
-.history-timeline { position: relative; padding: 0 0 0 3rem; }
-.history-timeline::before {
-  content: '';
-  position: absolute; left: 0; top: 0; bottom: 0;
-  width: 1px; background: rgba(201,169,110,0.2);
-}
-.history-event {
-  position: relative;
-  margin-bottom: 3rem;
-  padding-bottom: 3rem;
-  border-bottom: 1px solid rgba(201,169,110,0.05);
-}
+/* HISTORY TIMELINE */
+.history-timeline { position: relative; padding: 0 0 0 2.5rem; }
+.history-timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(201,169,110,0.2); }
+.history-event { position: relative; margin-bottom: 2.5rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(201,169,110,0.05); }
 .history-event:last-child { margin-bottom: 0; border-bottom: none; }
-.history-event::before {
-  content: '';
-  position: absolute; left: -3rem; top: 6px;
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  background: var(--gold);
-  transform: translateX(-50%);
-  margin-left: 1px;
-}
-.history-year {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  color: var(--gold);
-  font-style: italic;
-  margin-bottom: 0.5rem;
-}
-.history-event-title {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  color: var(--cream);
-  font-weight: 400;
-  margin-bottom: 0.5rem;
-}
-.history-event-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+.history-event::before { content: ''; position: absolute; left: -2.5rem; top: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--gold); transform: translateX(-50%); margin-left: 1px; }
+.history-year { font-family: var(--font-display); font-size: 0.9rem; color: var(--gold); font-style: italic; margin-bottom: 0.4rem; }
+.history-event-title { font-family: var(--font-display); font-size: 1.3rem; color: var(--cream); font-weight: 400; margin-bottom: 0.4rem; }
+.history-event-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
 
-/* ===========================
-   CONTACT PAGE
-=========================== */
-.contact-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0;
-  min-height: 80vh;
-}
-.contact-left {
-  background: var(--ink);
-  padding: 8% 7%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.contact-right {
-  background: var(--mid);
-  padding: 8% 7%;
-}
-.contact-info-item {
-  display: flex;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
-  align-items: flex-start;
-}
-.contact-icon {
-  width: 44px; height: 44px;
-  border: 1px solid rgba(201,169,110,0.3);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  font-size: 1.1rem;
-}
-.contact-info-title { font-weight: 600; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
-.contact-info-text { font-size: 0.85rem; color: rgba(250,246,240,0.7); line-height: 1.7; }
-
-.hours-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-.hours-day { font-size: 0.78rem; color: var(--muted); }
-.hours-time { font-size: 0.78rem; color: var(--cream); text-align: right; }
-
-.social-row { display: flex; gap: 1rem; margin-top: 3rem; }
-.social-btn {
-  width: 44px; height: 44px;
-  border: 1px solid rgba(201,169,110,0.2);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: var(--transition);
-  text-decoration: none;
-  color: var(--muted);
-}
+/* CONTACT */
+.contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 0; min-height: 80vh; }
+.contact-left { background: var(--ink); padding: 7% 6%; display: flex; flex-direction: column; justify-content: center; }
+.contact-right { background: var(--mid); padding: 7% 6%; }
+.contact-info-item { display: flex; gap: 1.25rem; margin-bottom: 2rem; align-items: flex-start; }
+.contact-icon { width: 42px; height: 42px; border: 1px solid rgba(201,169,110,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+.contact-info-title { font-weight: 600; font-size: 0.78rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+.contact-info-text { font-size: 0.83rem; color: rgba(250,246,240,0.7); line-height: 1.7; }
+.hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 0.75rem; }
+.hours-day { font-size: 0.76rem; color: var(--muted); }
+.hours-time { font-size: 0.76rem; color: var(--cream); text-align: right; }
+.social-row { display: flex; gap: 0.75rem; margin-top: 2.5rem; flex-wrap: wrap; }
+.social-btn { width: 42px; height: 42px; border: 1px solid rgba(201,169,110,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: var(--transition); text-decoration: none; color: var(--muted); touch-action: manipulation; }
 .social-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,169,110,0.05); }
-
-/* MAP PLACEHOLDER */
-.map-placeholder {
-  background: #111;
-  height: 300px;
-  border: 1px solid rgba(201,169,110,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-.map-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(201,169,110,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,169,110,0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
+.map-placeholder { background: #111; height: 280px; border: 1px solid rgba(201,169,110,0.1); display: flex; align-items: center; justify-content: center; margin-top: 2rem; position: relative; overflow: hidden; }
+.map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,169,110,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,0.05) 1px, transparent 1px); background-size: 40px 40px; }
 .map-pin { font-size: 2rem; z-index: 1; animation: pinBounce 2s ease-in-out infinite; }
 @keyframes pinBounce { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-10px) } }
 .map-label { z-index: 1; text-align: center; }
 
-/* ===========================
-   RESERVATIONS SECTION
-=========================== */
-.reservation-banner {
-  background: var(--gold);
-  padding: 5rem 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-}
-.reservation-text h2 {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 300;
-  color: var(--ink);
-  line-height: 1.1;
-}
-.reservation-text p { color: rgba(14,14,14,0.7); margin-top: 0.5rem; }
-.btn-dark {
-  display: inline-flex; align-items: center; gap: 0.75rem;
-  background: var(--ink);
-  color: var(--gold);
-  padding: 1rem 2.5rem;
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: var(--transition);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
+/* RESERVATION BANNER */
+.reservation-banner { background: var(--gold); padding: 4.5rem 5%; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.reservation-text h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 300; color: var(--ink); line-height: 1.1; }
+.reservation-text p { color: rgba(14,14,14,0.7); margin-top: 0.5rem; font-size: 0.9rem; }
+.btn-dark { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--ink); color: var(--gold); padding: 1rem 2.5rem; font-family: var(--font-body); font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; border: none; cursor: pointer; transition: var(--transition); white-space: nowrap; flex-shrink: 0; touch-action: manipulation; }
 .btn-dark:hover { background: #2a2a2a; transform: translateY(-2px); }
 
-/* ===========================
-   LOYALTY PROGRAM (New!)
-=========================== */
-.loyalty-section {
-  background: linear-gradient(135deg, rgba(201,169,110,0.08) 0%, transparent 70%);
-  border: 1px solid rgba(201,169,110,0.15);
-  padding: 4rem;
-  border-radius: 0;
-  position: relative;
-  overflow: hidden;
-}
-.loyalty-section::before {
-  content: 'MEMBERS';
-  position: absolute;
-  right: -2rem;
-  top: 50%;
-  transform: translateY(-50%) rotate(90deg);
-  font-family: var(--font-title);
-  font-size: 5rem;
-  color: rgba(201,169,110,0.04);
-  letter-spacing: 8px;
-  pointer-events: none;
-}
-.loyalty-tiers {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-}
-.tier-card {
-  border: 1px solid rgba(201,169,110,0.15);
-  padding: 2rem;
-  text-align: center;
-  transition: var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.tier-card::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--gold);
-  transform: scaleX(0);
-  transition: var(--transition);
-}
+/* LOYALTY */
+.loyalty-section { background: linear-gradient(135deg, rgba(201,169,110,0.08) 0%, transparent 70%); border: 1px solid rgba(201,169,110,0.15); padding: 3.5rem; position: relative; overflow: hidden; }
+.loyalty-section::before { content: 'MEMBERS'; position: absolute; right: -2rem; top: 50%; transform: translateY(-50%) rotate(90deg); font-family: var(--font-title); font-size: 5rem; color: rgba(201,169,110,0.04); letter-spacing: 8px; pointer-events: none; }
+.loyalty-tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 2.5rem; }
+.tier-card { border: 1px solid rgba(201,169,110,0.15); padding: 1.75rem; text-align: center; transition: var(--transition); position: relative; overflow: hidden; }
+.tier-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transition: var(--transition); }
 .tier-card:hover::before { transform: scaleX(1); }
 .tier-card:hover { background: rgba(201,169,110,0.05); }
 .tier-card.featured { border-color: var(--gold); background: rgba(201,169,110,0.05); }
 .tier-card.featured::before { transform: scaleX(1); }
-.tier-icon { font-size: 2rem; margin-bottom: 1rem; }
-.tier-name {
-  font-family: var(--font-title);
-  font-size: 0.85rem;
-  letter-spacing: 3px;
-  color: var(--gold);
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-}
-.tier-benefit { font-size: 0.8rem; color: var(--muted); line-height: 1.6; margin-top: 1rem; }
+.tier-icon { font-size: 1.8rem; margin-bottom: 0.85rem; }
+.tier-name { font-family: var(--font-title); font-size: 0.82rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 0.5rem; }
+.tier-benefit { font-size: 0.78rem; color: var(--muted); line-height: 1.6; margin-top: 0.85rem; }
 
-/* ===========================
-   ADMIN LOGIN PAGE
-=========================== */
-.admin-login-wrap {
-  min-height: 100vh;
-  background: var(--ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-}
-.admin-login-wrap::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.04) 0%, transparent 50%);
-}
-.admin-card {
-  background: var(--mid);
-  border: 1px solid rgba(201,169,110,0.2);
-  padding: 3.5rem;
-  width: 100%;
-  max-width: 440px;
-  position: relative;
-  z-index: 1;
-}
-.admin-card-logo {
-  font-family: var(--font-title);
-  font-size: 0.9rem;
-  letter-spacing: 4px;
-  color: var(--gold);
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-.admin-card-sub {
-  text-align: center;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(201,169,110,0.1);
-}
-.login-error {
-  background: rgba(192,57,43,0.1);
-  border: 1px solid rgba(192,57,43,0.3);
-  color: #e74c3c;
-  padding: 0.75rem 1rem;
-  font-size: 0.8rem;
-  margin-top: 1rem;
-  text-align: center;
-  display: none;
-}
+/* ADMIN LOGIN */
+.admin-login-wrap { min-height: 100vh; background: var(--ink); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; padding: 1.5rem; }
+.admin-login-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 50%, rgba(201,169,110,0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 50%, rgba(201,169,110,0.04) 0%, transparent 50%); }
+.admin-card { background: var(--mid); border: 1px solid rgba(201,169,110,0.2); padding: 3rem; width: 100%; max-width: 420px; position: relative; z-index: 1; }
+.admin-card-logo { font-family: var(--font-title); font-size: 0.9rem; letter-spacing: 4px; color: var(--gold); text-align: center; margin-bottom: 0.5rem; }
+.admin-card-sub { text-align: center; font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(201,169,110,0.1); }
+.login-error { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); color: #e74c3c; padding: 0.75rem 1rem; font-size: 0.8rem; margin-top: 1rem; text-align: center; display: none; }
 
-/* ===========================
-   ADMIN DASHBOARD
-=========================== */
-.admin-wrapper {
-  padding: 100px 5% 80px;
-  min-height: 100vh;
-  background: var(--dark);
-}
-.admin-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 3rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid rgba(201,169,110,0.15);
-}
-.admin-title {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--cream);
-}
-.admin-stats-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-.admin-stat-card {
-  background: var(--mid);
-  border: 1px solid rgba(201,169,110,0.1);
-  padding: 1.5rem 2rem;
-  border-left: 3px solid var(--gold);
-}
-.admin-stat-num {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: var(--gold);
-  line-height: 1;
-}
-.admin-stat-label { font-size: 0.7rem; letter-spacing: 1px; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; }
-
+/* ADMIN DASHBOARD */
+.admin-wrapper { padding: 90px 5% 80px; min-height: 100vh; background: var(--dark); }
+.admin-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(201,169,110,0.15); flex-wrap: wrap; gap: 1rem; }
+.admin-title { font-family: var(--font-display); font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 300; color: var(--cream); }
+.admin-stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+.admin-stat-card { background: var(--mid); border: 1px solid rgba(201,169,110,0.1); padding: 1.5rem; border-left: 3px solid var(--gold); }
+.admin-stat-num { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 300; color: var(--gold); line-height: 1; }
+.admin-stat-label { font-size: 0.68rem; letter-spacing: 1px; color: var(--muted); margin-top: 0.3rem; text-transform: uppercase; }
 .admin-section { background: var(--mid); border: 1px solid rgba(201,169,110,0.1); padding: 2.5rem; margin-bottom: 2rem; }
-.admin-section-title {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 300;
-  color: var(--cream);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(201,169,110,0.1);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.admin-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-.admin-table thead tr {
-  background: rgba(201,169,110,0.08);
-  border-bottom: 1px solid rgba(201,169,110,0.2);
-}
-.admin-table th {
-  padding: 1rem 1.25rem;
-  text-align: left;
-  font-size: 0.65rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 500;
-}
-.admin-table td {
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid rgba(201,169,110,0.06);
-  color: rgba(250,246,240,0.8);
-  vertical-align: middle;
-}
+.admin-section-title { font-family: var(--font-display); font-size: 1.4rem; font-weight: 300; color: var(--cream); margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(201,169,110,0.1); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.admin-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; min-width: 600px; }
+.admin-table thead tr { background: rgba(201,169,110,0.08); border-bottom: 1px solid rgba(201,169,110,0.2); }
+.admin-table th { padding: 0.9rem 1rem; text-align: left; font-size: 0.63rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 500; white-space: nowrap; }
+.admin-table td { padding: 0.9rem 1rem; border-bottom: 1px solid rgba(201,169,110,0.06); color: rgba(250,246,240,0.8); vertical-align: middle; }
 .admin-table tr:hover td { background: rgba(201,169,110,0.03); }
-.admin-table img {
-  width: 48px; height: 48px;
-  object-fit: cover;
-  border-radius: 2px;
-  border: 1px solid rgba(201,169,110,0.2);
-}
+.admin-table img { width: 44px; height: 44px; object-fit: cover; border-radius: 2px; border: 1px solid rgba(201,169,110,0.2); }
 .table-name { font-weight: 500; color: var(--cream); }
-.table-price { color: var(--gold); font-family: var(--font-display); font-size: 1.1rem; font-weight: 300; }
-.table-cat {
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  background: rgba(201,169,110,0.1);
-  border: 1px solid rgba(201,169,110,0.2);
-  color: var(--gold);
-  padding: 3px 10px;
-  display: inline-block;
-}
-.btn-delete {
-  background: transparent;
-  border: 1px solid rgba(192,57,43,0.4);
-  color: #e74c3c;
-  padding: 0.4rem 1rem;
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-body);
-}
+.table-price { color: var(--gold); font-family: var(--font-display); font-size: 1.05rem; font-weight: 300; }
+.table-cat { font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; background: rgba(201,169,110,0.1); border: 1px solid rgba(201,169,110,0.2); color: var(--gold); padding: 3px 8px; display: inline-block; }
+.btn-delete { background: transparent; border: 1px solid rgba(192,57,43,0.4); color: #e74c3c; padding: 0.35rem 0.9rem; font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: var(--transition); font-family: var(--font-body); touch-action: manipulation; }
 .btn-delete:hover { background: var(--danger); color: white; border-color: var(--danger); }
-.btn-edit {
-  background: transparent;
-  border: 1px solid rgba(201,169,110,0.3);
-  color: var(--gold);
-  padding: 0.4rem 1rem;
-  font-size: 0.65rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  font-family: var(--font-body);
-  margin-right: 0.5rem;
-}
+.btn-edit { background: transparent; border: 1px solid rgba(201,169,110,0.3); color: var(--gold); padding: 0.35rem 0.9rem; font-size: 0.62rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: var(--transition); font-family: var(--font-body); touch-action: manipulation; }
 .btn-edit:hover { background: var(--gold); color: var(--ink); }
 .table-actions { display: flex; gap: 0.5rem; align-items: center; }
 
 /* TOGGLE */
 .toggle-wrap { display: flex; align-items: center; gap: 1rem; }
-.toggle {
-  width: 44px; height: 22px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 11px;
-  cursor: pointer;
-  position: relative;
-  transition: var(--transition);
-  border: 1px solid rgba(201,169,110,0.2);
-}
+.toggle { width: 44px; height: 22px; background: rgba(255,255,255,0.1); border-radius: 11px; cursor: pointer; position: relative; transition: var(--transition); border: 1px solid rgba(201,169,110,0.2); touch-action: manipulation; }
 .toggle.on { background: rgba(39,174,96,0.3); border-color: rgba(39,174,96,0.5); }
-.toggle::after {
-  content: '';
-  position: absolute;
-  top: 2px; left: 2px;
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  background: var(--muted);
-  transition: var(--transition);
-}
+.toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: var(--transition); }
 .toggle.on::after { left: 24px; background: var(--success); }
 
-/* NOTIFICATION TOAST */
-.toast {
-  position: fixed;
-  bottom: 2rem; right: 2rem;
-  background: var(--mid);
-  border: 1px solid var(--gold);
-  border-left: 4px solid var(--gold);
-  padding: 1rem 1.5rem;
-  z-index: 9998;
-  transform: translateY(100px);
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  min-width: 300px;
-}
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--mid); border: 1px solid var(--gold); border-left: 4px solid var(--gold); padding: 1rem 1.5rem; z-index: 9998; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); min-width: 280px; max-width: 90vw; }
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast-msg { font-size: 0.85rem; color: var(--cream); }
 .toast-sub { font-size: 0.7rem; color: var(--muted); margin-top: 0.2rem; }
 
-/* ===========================
-   FOOTER
-=========================== */
-footer {
-  background: var(--ink);
-  padding: 5rem 5% 2rem;
-  border-top: 1px solid rgba(201,169,110,0.1);
-}
-.footer-grid {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
-}
-.footer-brand-name {
-  font-family: var(--font-title);
-  font-size: 1.1rem;
-  letter-spacing: 4px;
-  color: var(--gold);
-  margin-bottom: 1rem;
-}
-.footer-brand-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.7; max-width: 280px; }
-.footer-col-title {
-  font-size: 0.65rem;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-}
-.footer-links { list-style: none; }
-.footer-links li {
-  margin-bottom: 0.75rem;
-}
-.footer-links a {
-  font-size: 0.82rem;
-  color: var(--muted);
-  text-decoration: none;
-  cursor: pointer;
-  transition: var(--transition);
-}
-.footer-links a:hover { color: var(--gold); }
-.footer-bottom {
-  border-top: 1px solid rgba(201,169,110,0.08);
-  padding-top: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-.footer-copy { font-size: 0.75rem; color: rgba(138,138,138,0.6); }
-.admin-link-footer {
-  font-size: 0.65rem;
-  color: rgba(138,138,138,0.2);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  text-decoration: none;
-}
-.admin-link-footer:hover { color: var(--gold); }
-
-/* ===========================
-   NEWSLETTER
-=========================== */
-.newsletter-bar {
-  background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05));
-  border: 1px solid rgba(201,169,110,0.2);
-  padding: 3rem 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-.newsletter-text h3 {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 300;
-  color: var(--cream);
-  margin-bottom: 0.3rem;
-}
+/* NEWSLETTER */
+.newsletter-bar { background: linear-gradient(135deg, rgba(201,169,110,0.12), rgba(201,169,110,0.05)); border: 1px solid rgba(201,169,110,0.2); padding: 3rem 5%; display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.newsletter-text h3 { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 1.8rem); font-weight: 300; color: var(--cream); margin-bottom: 0.3rem; }
 .newsletter-text p { font-size: 0.82rem; color: var(--muted); }
-.newsletter-form { display: flex; gap: 0; flex: 1; max-width: 480px; }
-.newsletter-input {
-  flex: 1;
-  padding: 0.9rem 1.25rem;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(201,169,110,0.2);
-  border-right: none;
-  color: var(--cream);
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  outline: none;
-  transition: var(--transition);
-}
+.newsletter-form { display: flex; gap: 0; flex: 1; max-width: 480px; min-width: 250px; }
+.newsletter-input { flex: 1; padding: 0.9rem 1.1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(201,169,110,0.2); border-right: none; color: var(--cream); font-family: var(--font-body); font-size: 0.85rem; outline: none; transition: var(--transition); }
 .newsletter-input:focus { border-color: var(--gold); }
 .newsletter-input::placeholder { color: var(--muted); }
-.newsletter-submit {
-  padding: 0.9rem 1.5rem;
-  background: var(--gold);
-  border: 1px solid var(--gold);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  white-space: nowrap;
-}
+.newsletter-submit { padding: 0.9rem 1.25rem; background: var(--gold); border: 1px solid var(--gold); color: var(--ink); font-family: var(--font-body); font-size: 0.68rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; cursor: pointer; transition: var(--transition); white-space: nowrap; touch-action: manipulation; }
 .newsletter-submit:hover { background: var(--gold-light); }
 
-/* ===========================
-   COOKIE BANNER
-=========================== */
-.cookie-banner {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: rgba(20,20,20,0.98);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(201,169,110,0.2);
-  padding: 1.5rem 5%;
-  z-index: 9000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  flex-wrap: wrap;
-  transform: translateY(100%);
-  transition: transform 0.5s ease 3s;
-}
+/* FOOTER */
+footer { background: var(--ink); padding: 4.5rem 5% 2rem; border-top: 1px solid rgba(201,169,110,0.1); }
+.footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3.5rem; margin-bottom: 3.5rem; }
+.footer-brand-name { font-family: var(--font-title); font-size: 0.95rem; letter-spacing: 4px; color: var(--gold); margin-bottom: 1rem; }
+.footer-brand-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; max-width: 280px; }
+.footer-col-title { font-size: 0.63rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem; font-weight: 500; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.65rem; }
+.footer-links a { font-size: 0.8rem; color: var(--muted); text-decoration: none; cursor: pointer; transition: var(--transition); }
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom { border-top: 1px solid rgba(201,169,110,0.08); padding-top: 1.75rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-size: 0.72rem; color: rgba(138,138,138,0.6); }
+.admin-link-footer { font-size: 0.63rem; color: rgba(138,138,138,0.2); letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: var(--transition); text-decoration: none; }
+.admin-link-footer:hover { color: var(--gold); }
+
+/* COOKIE BANNER */
+.cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(20,20,20,0.98); backdrop-filter: blur(10px); border-top: 1px solid rgba(201,169,110,0.2); padding: 1.5rem 5%; z-index: 9000; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; transform: translateY(100%); transition: transform 0.5s ease 3s; }
 .cookie-banner.show { transform: translateY(0); }
-.cookie-text { font-size: 0.8rem; color: var(--muted); max-width: 600px; }
+.cookie-text { font-size: 0.78rem; color: var(--muted); max-width: 600px; }
 .cookie-text a { color: var(--gold); cursor: pointer; }
-.cookie-btns { display: flex; gap: 1rem; flex-shrink: 0; }
-.btn-cookie {
-  padding: 0.5rem 1.5rem;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: var(--transition);
-  border: 1px solid transparent;
-  font-family: var(--font-body);
-}
+.cookie-btns { display: flex; gap: 0.75rem; flex-shrink: 0; }
+.btn-cookie { padding: 0.5rem 1.25rem; font-size: 0.68rem; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: var(--transition); border: 1px solid transparent; font-family: var(--font-body); touch-action: manipulation; }
 .btn-accept { background: var(--gold); color: var(--ink); border-color: var(--gold); }
 .btn-accept:hover { background: var(--gold-light); }
 .btn-decline { background: transparent; color: var(--muted); border-color: rgba(255,255,255,0.1); }
 .btn-decline:hover { border-color: var(--muted); color: var(--cream); }
 
-/* ===========================
-   MOBILE MENU
-=========================== */
-.mobile-menu {
-  position: fixed;
-  inset: 0;
-  background: var(--ink);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  transform: translateX(-100%);
-  transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-}
-.mobile-menu.open { transform: translateX(0); }
-.mobile-nav-item {
-  font-family: var(--font-display);
-  font-size: 2.5rem;
-  font-style: italic;
-  font-weight: 300;
-  color: rgba(250,246,240,0.5);
-  cursor: pointer;
-  transition: var(--transition);
-}
-.mobile-nav-item:hover { color: var(--gold); }
-
-/* ===========================
-   RESPONSIVE
-=========================== */
+/* ==============================
+   RESPONSIVE — TABLET (≤1024px)
+============================== */
 @media (max-width: 1024px) {
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
   .admin-stats-row { grid-template-columns: repeat(2, 1fr); }
   .admin-form-grid { grid-template-columns: 1fr; }
   .values-grid { grid-template-columns: 1fr 1fr; }
   .loyalty-tiers { grid-template-columns: 1fr; gap: 1rem; }
+  .preorder-layout { grid-template-columns: 1fr; padding: 110px 5% 60px; }
+  .order-timeline { position: static; }
+  .signature-grid { min-height: auto; }
+  .features-strip { grid-template-columns: repeat(2, 1fr); }
+  .feature-item:nth-child(2) { border-right: none; }
+  .feature-item { border-bottom: 1px solid rgba(201,169,110,0.08); }
+  .feature-item:nth-child(3), .feature-item:nth-child(4) { border-bottom: none; }
 }
 
+/* ==============================
+   RESPONSIVE — MOBILE (≤768px)
+============================== */
 @media (max-width: 768px) {
+  /* NAV */
   .nav-links, .nav-cta { display: none; }
   .hamburger { display: flex; }
-  .hero { grid-template-columns: 1fr; height: auto; }
-  .hero-left { padding: 160px 8% 80px; }
-  .hero-right { height: 400px; display: block; }
-  .features-strip { grid-template-columns: 1fr 1fr; }
-  .feature-item { border-right: none; border-bottom: 1px solid rgba(201,169,110,0.1); }
+
+  /* HERO — stack vertically */
+  .hero { grid-template-columns: 1fr; height: auto; min-height: 100svh; }
+  .hero-left { padding: 120px 6% 60px; order: 1; }
+  .hero-right { height: 55vw; min-height: 260px; order: 0; }
+  .display-title { font-size: clamp(2.6rem, 10vw, 4rem); }
+  .hero-tag { font-size: 0.55rem; margin-bottom: 1.5rem; }
+  .floating-badge { bottom: 10%; right: 5%; padding: 1rem; min-width: 160px; }
+  .badge-title { font-size: 1rem; }
+  .hero-scroll { display: none; }
+  .hero-stats { gap: 1.5rem; }
+  .stat-num { font-size: 1.8rem; }
+
+  /* FEATURES STRIP */
+  .features-strip { grid-template-columns: 1fr 1fr; padding: 0; }
+  .feature-item { padding: 1.2rem 1.25rem; border-right: none; }
+  .feature-item:nth-child(odd) { border-right: 1px solid rgba(201,169,110,0.1); }
+  .feature-item:nth-child(1), .feature-item:nth-child(2) { border-bottom: 1px solid rgba(201,169,110,0.1); }
+  .feature-item:nth-child(3), .feature-item:nth-child(4) { border-bottom: none; }
+
+  /* SIGNATURE SECTIONS */
   .signature-grid { grid-template-columns: 1fr; }
-  .about-story { grid-template-columns: 1fr; }
+  .signature-image { height: 60vw; min-height: 220px; }
+  .signature-image img { height: 100%; }
+  .signature-content { padding: 2rem 1.5rem; }
+
+  /* MENU */
+  .menu-hero { height: 35vh; min-height: 200px; }
+  .menu-grid { grid-template-columns: 1fr; }
+  .menu-card-img-wrap { height: 200px; }
+
+  /* PREORDER */
+  .preorder-layout { padding: 90px 4% 50px; gap: 2rem; }
+  .order-form-card { padding: 1.5rem; }
+  .order-timeline { padding: 1.5rem; }
+  .form-row { grid-template-columns: 1fr; gap: 0; }
+  .picker-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ABOUT */
+  .about-hero { height: 40vh; min-height: 220px; }
+  .about-story { grid-template-columns: 1fr; gap: 3rem; }
   .story-text { position: static; }
-  .preorder-layout { grid-template-columns: 1fr; padding: 120px 5% 80px; }
-  .order-timeline { position: static; }
-  .contact-layout { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .reservation-banner { flex-direction: column; text-align: center; }
-  .about-hero, .menu-hero { height: 35vh; }
-  .form-row { grid-template-columns: 1fr; }
+
+  /* VALUES */
   .values-grid { grid-template-columns: 1fr; }
-  .hero-stats { flex-wrap: wrap; gap: 1.5rem; }
+  .value-box { padding: 1.75rem; }
+
+  /* TEAM */
+  .team-grid { grid-template-columns: repeat(2, 1fr); }
+  .team-img { height: 240px; }
+
+  /* CONTACT */
+  .contact-layout { grid-template-columns: 1fr; min-height: auto; }
+  .contact-left, .contact-right { padding: 3rem 5%; }
+
+  /* LOYALTY */
+  .loyalty-section { padding: 2rem 1.5rem; }
+  .loyalty-tiers { grid-template-columns: 1fr; gap: 0.85rem; margin-top: 1.5rem; }
+
+  /* RESERVATION BANNER */
+  .reservation-banner { flex-direction: column; text-align: center; padding: 3rem 5%; }
+  .btn-dark { align-self: center; }
+
+  /* NEWSLETTER */
+  .newsletter-bar { flex-direction: column; align-items: flex-start; }
+  .newsletter-form { min-width: unset; width: 100%; }
+
+  /* FOOTER */
+  .footer-grid { grid-template-columns: 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .footer-brand-desc { max-width: 100%; }
+
+  /* PRESS */
+  .press-logos { gap: 1.5rem 2.5rem; }
+  .press-name { font-size: 1rem; }
+
+  /* ADMIN */
+  .admin-stats-row { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .admin-stat-card { padding: 1.1rem 1.25rem; }
+  .admin-section { padding: 1.5rem; }
+  .admin-section-title { font-size: 1.2rem; flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .admin-section-title input { width: 100% !important; }
+  .admin-form-grid { grid-template-columns: 1fr; gap: 0; }
+  .admin-header { flex-direction: column; align-items: flex-start; }
+  .admin-header > div:last-child { width: 100%; }
+
+  /* TOAST */
+  .toast { right: 1rem; left: 1rem; min-width: unset; bottom: 1.5rem; }
+
+  /* COOKIE */
+  .cookie-banner { flex-direction: column; align-items: flex-start; padding: 1.25rem 5%; }
+  .cookie-btns { width: 100%; }
+
+  /* FORMS */
+  .form-section-title { font-size: 1.2rem; }
+  .section-title { font-size: clamp(1.8rem, 6vw, 3rem); }
+}
+
+/* ==============================
+   RESPONSIVE — SMALL (≤480px)
+============================== */
+@media (max-width: 480px) {
+  nav { padding: 0 4%; }
+  .hero-left { padding: 100px 5% 50px; }
+  .hero-right { height: 70vw; }
+  .display-title { font-size: clamp(2.3rem, 11vw, 3.5rem); }
+  .features-strip { grid-template-columns: 1fr; }
+  .feature-item { border-right: none !important; }
+  .feature-item:nth-child(1), .feature-item:nth-child(2), .feature-item:nth-child(3) { border-bottom: 1px solid rgba(201,169,110,0.1); }
+  .team-grid { grid-template-columns: 1fr; }
+  .picker-grid { grid-template-columns: repeat(2, 1fr); }
+  .btn-primary, .btn-outline { padding: 0.85rem 1.5rem; font-size: 0.65rem; letter-spacing: 2px; }
+  .floating-badge { display: none; }
+  .hero-stats { gap: 1rem; }
+  .admin-card { padding: 2rem 1.5rem; }
+  .admin-stats-row { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+  .signature-content { padding: 1.75rem 1.25rem; }
+  .loyalty-section { padding: 1.5rem 1rem; }
+  .section { padding: 60px 0; }
+  .container.section { padding: 60px 4%; }
+  .contact-left, .contact-right { padding: 2.5rem 4%; }
+  .preorder-layout { padding: 85px 4% 40px; }
+  .order-form-card { padding: 1.25rem; }
+}
+
+/* Touch highlight removal */
+* { -webkit-tap-highlight-color: transparent; }
+button, a, .picker-item, .tier-card, .menu-card { -webkit-tap-highlight-color: transparent; }
+
+/* Safe area insets for notched phones */
+@supports (padding: max(0px)) {
+  nav { padding-left: max(5%, env(safe-area-inset-left)); padding-right: max(5%, env(safe-area-inset-right)); }
+  .cookie-banner { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+  footer { padding-left: max(5%, env(safe-area-inset-left)); padding-right: max(5%, env(safe-area-inset-right)); }
 }
 </style>
 </head>
@@ -1616,107 +728,63 @@ footer {
     <li class="nav-item" onclick="switchPage('preorder')">Reservations</li>
   </ul>
   <button class="nav-cta" onclick="switchPage('preorder')">Reserve a Table</button>
-  <div class="hamburger" onclick="toggleMobileMenu()" id="hamburger">
+  <button class="hamburger" onclick="toggleMobileMenu()" id="hamburger" aria-label="Open menu">
     <span></span><span></span><span></span>
-  </div>
+  </button>
 </nav>
 
 <!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Navigation menu">
   <div class="mobile-nav-item" onclick="switchPage('home'); toggleMobileMenu()">Home</div>
   <div class="mobile-nav-item" onclick="switchPage('menu'); toggleMobileMenu()">Menu</div>
   <div class="mobile-nav-item" onclick="switchPage('about'); toggleMobileMenu()">Our Story</div>
   <div class="mobile-nav-item" onclick="switchPage('contact'); toggleMobileMenu()">Contact</div>
   <div class="mobile-nav-item" onclick="switchPage('preorder'); toggleMobileMenu()">Reservations</div>
+  <div class="mobile-menu-footer">Est. 2026 · Kozhikode, Kerala</div>
 </div>
 
-<!-- ===========================
-     HOME PAGE
-=========================== -->
+<!-- =================== HOME PAGE =================== -->
 <section id="home" class="page active">
 
-  <!-- HERO -->
   <div class="hero">
-    <div class="hero-left">
-      <div class="hero-tag">Est. 2026 · Kozhikode, Kerala</div>
-      <h1 class="display-title">
-        Where Every<br><em>Sip Tells</em><br>a Story.
-      </h1>
-      <p class="body-text" style="margin-top: 1.5rem; max-width: 420px;">An artisanal experience rooted in the lush tea gardens of Malabar. Heritage brewing, contemporary soul, and ingredients that honour the earth.</p>
-      <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
-        <button class="btn-primary" onclick="switchPage('menu')">Explore Menu <span class="btn-arrow">→</span></button>
-        <button class="btn-outline" onclick="switchPage('about')">Our Heritage</button>
-      </div>
-      <div class="hero-stats">
-        <div>
-          <div class="stat-num">12+</div>
-          <div class="stat-label">Tea Estates</div>
-        </div>
-        <div>
-          <div class="stat-num">38k</div>
-          <div class="stat-label">Guests Served</div>
-        </div>
-        <div>
-          <div class="stat-num">4.9★</div>
-          <div class="stat-label">Avg. Rating</div>
-        </div>
-      </div>
-    </div>
     <div class="hero-right">
       <img class="hero-bg"
         src="https://images.unsplash.com/photo-1556910103-1c02745a32b0?q=80&w=2070&auto=format&fit=crop"
         alt="Artisan cuisine"
         onerror="this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop'">
-
-      <!-- Daily Special Badge -->
       <div class="floating-badge">
         <div class="badge-day"><span class="badge-dot"></span>Today's Special</div>
         <div class="badge-title">Malabar Spice Risotto</div>
         <div class="badge-price">₹850</div>
       </div>
     </div>
-    <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
+    <div class="hero-left">
+      <div class="hero-tag">Est. 2026 · Kozhikode, Kerala</div>
+      <h1 class="display-title">Where Every<br><em>Sip Tells</em><br>a Story.</h1>
+      <p class="body-text" style="margin-top: 1.5rem; max-width: 420px;">An artisanal experience rooted in the lush tea gardens of Malabar. Heritage brewing, contemporary soul, and ingredients that honour the earth.</p>
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+        <button class="btn-primary" onclick="switchPage('menu')">Explore Menu <span class="btn-arrow">→</span></button>
+        <button class="btn-outline" onclick="switchPage('about')">Our Heritage</button>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-num">12+</div><div class="stat-label">Tea Estates</div></div>
+        <div><div class="stat-num">38k</div><div class="stat-label">Guests Served</div></div>
+        <div><div class="stat-num">4.9★</div><div class="stat-label">Avg. Rating</div></div>
+      </div>
     </div>
+    <div class="hero-scroll"><span>Scroll</span><div class="scroll-line"></div></div>
   </div>
 
-  <!-- FEATURES STRIP -->
   <div class="features-strip">
-    <div class="feature-item">
-      <div class="feature-icon">🍃</div>
-      <div>
-        <div class="feature-title">Estate-Direct</div>
-        <div class="feature-sub">Sourced from 12 curated tea estates</div>
-      </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">⚗️</div>
-      <div>
-        <div class="feature-title">Master Blending</div>
-        <div class="feature-sub">Crafted by certified tea sommeliers</div>
-      </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🌿</div>
-      <div>
-        <div class="feature-title">Sustainably Grown</div>
-        <div class="feature-sub">Certified organic & fair trade</div>
-      </div>
-    </div>
-    <div class="feature-item">
-      <div class="feature-icon">🏆</div>
-      <div>
-        <div class="feature-title">Award Winning</div>
-        <div class="feature-sub">India Food & Beverage Awards 2025</div>
-      </div>
-    </div>
+    <div class="feature-item"><div class="feature-icon">🍃</div><div><div class="feature-title">Estate-Direct</div><div class="feature-sub">Sourced from 12 curated estates</div></div></div>
+    <div class="feature-item"><div class="feature-icon">⚗️</div><div><div class="feature-title">Master Blending</div><div class="feature-sub">Certified tea sommeliers</div></div></div>
+    <div class="feature-item"><div class="feature-icon">🌿</div><div><div class="feature-title">Sustainably Grown</div><div class="feature-sub">Organic & fair trade</div></div></div>
+    <div class="feature-item"><div class="feature-icon">🏆</div><div><div class="feature-title">Award Winning</div><div class="feature-sub">India Food & Bev Awards 2025</div></div></div>
   </div>
 
-  <!-- SIGNATURE EXPERIENCE -->
   <div class="signature-grid" style="margin-top: 1.5px;">
     <div class="signature-image">
-      <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2071&auto=format&fit=crop" alt="Signature dish" style="height:100%; min-height:500px;">
+      <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?q=80&w=2071&auto=format&fit=crop" alt="Signature dish" style="height:100%; min-height:400px;">
       <div class="sig-overlay"></div>
     </div>
     <div class="signature-content">
@@ -1730,49 +798,40 @@ footer {
         <li>Single-origin tea ceremonies by appointment</li>
         <li>Chef's table experience — 8 seats, 12 courses</li>
       </ul>
-      <button class="btn-primary" onclick="switchPage('preorder')" style="margin-top: 1rem;">
-        Reserve Your Experience <span class="btn-arrow">→</span>
-      </button>
+      <button class="btn-primary" onclick="switchPage('preorder')" style="margin-top: 1rem;">Reserve Your Experience <span class="btn-arrow">→</span></button>
     </div>
   </div>
 
-  <!-- SECOND FEATURE SPLIT -->
   <div class="signature-grid">
     <div class="signature-content" style="background: var(--ink);">
       <span class="label">The Tea Collection</span>
       <h2 class="section-title">Over <em>80 Rare</em><br>Varietals</h2>
       <div class="divider"><span class="divider-icon">◆</span></div>
-      <p class="body-text">From first-flush Darjeeling to aged Pu-erh, our living cellar holds one of South Asia's most curated private tea collections. Each cup is a portal.</p>
+      <p class="body-text">From first-flush Darjeeling to aged Pu-erh, our living cellar holds one of South Asia's most curated private tea collections.</p>
       <ul class="ingredient-list">
         <li>Nilgiri High-Grown Frost Tea — rare winter harvest</li>
         <li>Wayanad Wild-Harvest Green — unoxidised leaf</li>
-        <li>Assam Single-Estate CTC — full-bodied morning blend</li>
+        <li>Assam Single-Estate CTC — full-bodied morning</li>
         <li>Kerala Cardamom Chai — our signature house blend</li>
       </ul>
-      <button class="btn-outline" onclick="switchPage('menu')" style="margin-top: 1rem;">
-        Browse Tea Menu <span class="btn-arrow">→</span>
-      </button>
+      <button class="btn-outline" onclick="switchPage('menu')" style="margin-top: 1rem;">Browse Tea Menu <span class="btn-arrow">→</span></button>
     </div>
     <div class="signature-image">
-      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2064&auto=format&fit=crop" alt="Tea collection" style="height:100%; min-height:500px;">
+      <img src="https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2064&auto=format&fit=crop" alt="Tea collection" style="height:100%; min-height:400px;">
       <div class="sig-overlay"></div>
     </div>
   </div>
 
-  <!-- TESTIMONIALS -->
   <div class="testimonials">
     <div class="testimonials-header">
       <span class="label" style="text-align:center; display:block;">What Our Guests Say</span>
       <h2 class="section-title" style="text-align:center;">Voices From<br><em>Around the World</em></h2>
     </div>
     <div style="overflow: hidden;">
-      <div class="testimonial-track" id="testimonial-track">
-        <!-- Cards are duplicated in JS -->
-      </div>
+      <div class="testimonial-track" id="testimonial-track"></div>
     </div>
   </div>
 
-  <!-- PRESS LOGOS -->
   <div class="press-strip">
     <div class="press-label">As Featured In</div>
     <div class="press-logos">
@@ -1784,40 +843,24 @@ footer {
     </div>
   </div>
 
-  <!-- LOYALTY PROGRAM -->
-  <div class="container" style="padding: 100px 5%;">
+  <div class="container" style="padding: 80px 5%;">
     <div class="loyalty-section">
       <span class="label">Membership Programme</span>
       <h2 class="section-title">The Varikkans<br><em>Collectors Circle</em></h2>
-      <p class="body-text" style="margin-top: 1rem; max-width: 500px;">Join our exclusive membership and unlock a world of priority access, complimentary tastings, and curated experiences tailored for the true connoisseur.</p>
+      <p class="body-text" style="margin-top: 1rem; max-width: 500px;">Join our exclusive membership and unlock a world of priority access, complimentary tastings, and curated experiences.</p>
       <div class="loyalty-tiers">
-        <div class="tier-card">
-          <div class="tier-icon">🌿</div>
-          <div class="tier-name">Leaf</div>
-          <p class="tier-benefit">Priority reservations · Monthly newsletter with brewing guides · Birthday treat</p>
-        </div>
-        <div class="tier-card featured">
-          <div class="tier-icon">🌸</div>
-          <div class="tier-name">Blossom</div>
-          <p class="tier-benefit">All Leaf benefits · Quarterly tasting kit delivered · 15% off all visits · Estate tour access</p>
-        </div>
-        <div class="tier-card">
-          <div class="tier-icon">👑</div>
-          <div class="tier-name">Grand Cru</div>
-          <p class="tier-benefit">All Blossom benefits · Chef's table priority · Private cellaring service · Annual retreat invitation</p>
-        </div>
+        <div class="tier-card"><div class="tier-icon">🌿</div><div class="tier-name">Leaf</div><p class="tier-benefit">Priority reservations · Monthly newsletter · Birthday treat</p></div>
+        <div class="tier-card featured"><div class="tier-icon">🌸</div><div class="tier-name">Blossom</div><p class="tier-benefit">All Leaf benefits · Quarterly tasting kit · 15% off · Estate tour access</p></div>
+        <div class="tier-card"><div class="tier-icon">👑</div><div class="tier-name">Grand Cru</div><p class="tier-benefit">All Blossom benefits · Chef's table priority · Private cellaring · Annual retreat</p></div>
       </div>
-      <button class="btn-primary" style="margin-top: 2.5rem;">
-        Join the Circle <span class="btn-arrow">→</span>
-      </button>
+      <button class="btn-primary" style="margin-top: 2rem;">Join the Circle <span class="btn-arrow">→</span></button>
     </div>
   </div>
 
-  <!-- NEWSLETTER -->
   <div class="newsletter-bar">
     <div class="newsletter-text">
       <h3>Stay in the Conversation</h3>
-      <p>Seasonal updates, limited harvest alerts, and invitations to exclusive events.</p>
+      <p>Seasonal updates, limited harvest alerts, and exclusive event invitations.</p>
     </div>
     <form class="newsletter-form" onsubmit="handleNewsletter(event)">
       <input type="email" class="newsletter-input" placeholder="Your email address" required>
@@ -1825,7 +868,6 @@ footer {
     </form>
   </div>
 
-  <!-- RESERVATION CTA -->
   <div class="reservation-banner">
     <div class="reservation-text">
       <h2>Experience It For Yourself.</h2>
@@ -1836,27 +878,21 @@ footer {
 
 </section>
 
-<!-- ===========================
-     MENU PAGE
-=========================== -->
+<!-- =================== MENU PAGE =================== -->
 <section id="menu" class="page">
   <div class="menu-hero">
     <div class="menu-hero-bg"></div>
     <div class="menu-hero-content">
       <span class="label">Curated Daily</span>
-      <h1 class="display-title" style="font-size: clamp(2.5rem, 6vw, 5rem);">Today's<br><em>Menu</em></h1>
+      <h1 class="display-title" style="font-size: clamp(2.2rem, 7vw, 5rem);">Today's<br><em>Menu</em></h1>
       <p class="body-text" style="margin-top: 0.5rem;">Chef's selection for <span id="menu-date"></span></p>
     </div>
   </div>
-
-  <div class="container" style="padding: 4rem 5%;">
-    <div class="menu-filter" id="menu-filter">
-      <button class="filter-btn active" onclick="filterMenu('All', this)">All</button>
-    </div>
+  <div class="container" style="padding: 3.5rem 5%;">
+    <div class="menu-filter" id="menu-filter"></div>
     <div class="menu-grid" id="menu-container"></div>
   </div>
-
-  <div class="reservation-banner" style="margin-top: 0;">
+  <div class="reservation-banner">
     <div class="reservation-text">
       <h2>Ready to Order?</h2>
       <p>Pre-order for seamless dining. Your table, your time.</p>
@@ -1865,46 +901,26 @@ footer {
   </div>
 </section>
 
-<!-- ===========================
-     PRE-ORDER / RESERVATION
-=========================== -->
+<!-- =================== PRE-ORDER PAGE =================== -->
 <section id="preorder" class="page">
   <div class="preorder-layout">
     <div class="order-left">
       <span class="label">Table Reservations & Pre-Orders</span>
       <h2 class="section-title" style="margin-bottom: 2rem;">Reserve Your<br><em>Experience</em></h2>
-
       <div class="order-form-card">
         <div class="form-section-title">1. Guest Details</div>
         <div class="form-row">
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" id="fname" placeholder="Arjun" required>
-          </div>
-          <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" id="lname" placeholder="Nair" required>
-          </div>
+          <div class="form-group"><label>First Name</label><input type="text" id="fname" placeholder="Arjun" required></div>
+          <div class="form-group"><label>Last Name</label><input type="text" id="lname" placeholder="Nair" required></div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="email" placeholder="arjun@example.com" required>
-          </div>
-          <div class="form-group">
-            <label>Phone Number</label>
-            <input type="tel" id="phone" placeholder="+91 98765 43210" required>
-          </div>
+          <div class="form-group"><label>Email Address</label><input type="email" id="email" placeholder="arjun@example.com" required></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="phone" placeholder="+91 98765 43210" required></div>
         </div>
-
-        <div class="form-section-title" style="margin-top: 1rem;">2. Reservation Details</div>
+        <div class="form-section-title" style="margin-top: 0.5rem;">2. Reservation Details</div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Date</label>
-            <input type="date" id="res-date" required>
-          </div>
-          <div class="form-group">
-            <label>Time</label>
+          <div class="form-group"><label>Date</label><input type="date" id="res-date" required></div>
+          <div class="form-group"><label>Time</label>
             <select id="res-time" required>
               <option value="">Select a time slot</option>
               <option>11:00 AM — Brunch Opening</option>
@@ -1917,100 +933,50 @@ footer {
           </div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Party Size</label>
+          <div class="form-group"><label>Party Size</label>
             <select id="party-size" required>
-              <option>1 Guest</option>
-              <option>2 Guests</option>
-              <option>3–4 Guests</option>
-              <option>5–6 Guests</option>
-              <option>7–10 Guests</option>
-              <option>Large Party (10+)</option>
+              <option>1 Guest</option><option>2 Guests</option><option>3–4 Guests</option>
+              <option>5–6 Guests</option><option>7–10 Guests</option><option>Large Party (10+)</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Occasion</label>
+          <div class="form-group"><label>Occasion</label>
             <select id="occasion">
-              <option value="">No special occasion</option>
-              <option>Birthday</option>
-              <option>Anniversary</option>
-              <option>Business Dinner</option>
-              <option>Proposal</option>
-              <option>Other</option>
+              <option value="">No special occasion</option><option>Birthday</option>
+              <option>Anniversary</option><option>Business Dinner</option><option>Proposal</option><option>Other</option>
             </select>
           </div>
         </div>
-
-        <div class="form-section-title" style="margin-top: 1rem;">3. Pre-Select Menu Items</div>
-        <p class="body-text" style="margin-bottom: 1rem; font-size: 0.8rem;">Optionally pre-select items so your table is prepared on arrival.</p>
+        <div class="form-section-title" style="margin-top: 0.5rem;">3. Pre-Select Menu Items</div>
+        <p class="body-text" style="margin-bottom: 0.85rem; font-size: 0.78rem;">Optionally pre-select items so your table is prepared on arrival.</p>
         <div class="picker-grid" id="item-picker"></div>
-
-        <div class="form-section-title" style="margin-top: 1.5rem;">4. Dietary & Special Requests</div>
+        <div class="form-section-title" style="margin-top: 1.25rem;">4. Dietary & Special Requests</div>
         <div class="form-row">
-          <div class="form-group">
-            <label>Dietary Requirements</label>
+          <div class="form-group"><label>Dietary Requirements</label>
             <select id="dietary">
-              <option value="">No restrictions</option>
-              <option>Vegetarian</option>
-              <option>Vegan</option>
-              <option>Gluten-Free</option>
-              <option>Halal</option>
-              <option>Kosher</option>
-              <option>Nut Allergy</option>
-              <option>Dairy-Free</option>
+              <option value="">No restrictions</option><option>Vegetarian</option><option>Vegan</option>
+              <option>Gluten-Free</option><option>Halal</option><option>Kosher</option><option>Nut Allergy</option><option>Dairy-Free</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>How Did You Hear About Us?</label>
+          <div class="form-group"><label>How Did You Hear About Us?</label>
             <select>
-              <option>Google Search</option>
-              <option>Instagram</option>
-              <option>Friend / Family</option>
-              <option>Food Blog</option>
-              <option>Hotel Concierge</option>
-              <option>Other</option>
+              <option>Google Search</option><option>Instagram</option><option>Friend / Family</option>
+              <option>Food Blog</option><option>Hotel Concierge</option><option>Other</option>
             </select>
           </div>
         </div>
-        <div class="form-group">
-          <label>Additional Notes</label>
-          <textarea id="notes" placeholder="Window seating preferred, milestone celebration, accessibility needs..."></textarea>
-        </div>
-
-        <button class="btn-primary" onclick="submitReservation()" style="width: 100%; justify-content: center;">
-          Confirm Reservation <span class="btn-arrow">→</span>
-        </button>
-        <p style="font-size: 0.72rem; color: var(--muted); text-align: center; margin-top: 1rem;">You will receive a confirmation email within 15 minutes. Cancellations accepted up to 4 hours prior.</p>
+        <div class="form-group"><label>Additional Notes</label><textarea id="notes" placeholder="Window seating preferred, milestone celebration, accessibility needs..."></textarea></div>
+        <button class="btn-primary" onclick="submitReservation()" style="width: 100%; justify-content: center;">Confirm Reservation <span class="btn-arrow">→</span></button>
+        <p style="font-size: 0.7rem; color: var(--muted); text-align: center; margin-top: 0.85rem;">Confirmation email within 15 minutes. Cancellations accepted up to 4 hours prior.</p>
       </div>
     </div>
-
     <div class="order-right">
       <div class="order-timeline">
         <span class="label">How It Works</span>
-        <h3 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; color: var(--cream); margin-bottom: 2rem;">Three Simple<br><em>Steps</em></h3>
-        <div class="timeline-step">
-          <div class="step-num">01</div>
-          <div>
-            <div class="step-title">Reserve & Select</div>
-            <p class="step-desc">Choose your date, time, party size and optionally pre-select menu items for a seamless arrival.</p>
-          </div>
-        </div>
-        <div class="timeline-step">
-          <div class="step-num">02</div>
-          <div>
-            <div class="step-title">Receive Confirmation</div>
-            <p class="step-desc">A personalised confirmation with your reservation details arrives within 15 minutes.</p>
-          </div>
-        </div>
-        <div class="timeline-step">
-          <div class="step-num">03</div>
-          <div>
-            <div class="step-title">Arrive & Indulge</div>
-            <p class="step-desc">Your table is set, your preferences are known. Simply arrive and let us take care of the rest.</p>
-          </div>
-        </div>
-
-        <div style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(201,169,110,0.15);">
+        <h3 style="font-family: var(--font-display); font-size: 1.8rem; font-weight: 300; color: var(--cream); margin-bottom: 1.75rem;">Three Simple<br><em>Steps</em></h3>
+        <div class="timeline-step"><div class="step-num">01</div><div><div class="step-title">Reserve & Select</div><p class="step-desc">Choose your date, time, party size and optionally pre-select menu items for a seamless arrival.</p></div></div>
+        <div class="timeline-step"><div class="step-num">02</div><div><div class="step-title">Receive Confirmation</div><p class="step-desc">A personalised confirmation with your reservation details arrives within 15 minutes.</p></div></div>
+        <div class="timeline-step"><div class="step-num">03</div><div><div class="step-title">Arrive & Indulge</div><p class="step-desc">Your table is set, your preferences are known. Simply arrive and let us take care of the rest.</p></div></div>
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(201,169,110,0.15);">
           <span class="label">Opening Hours</span>
           <div class="hours-grid">
             <span class="hours-day">Mon — Fri</span><span class="hours-time">11:00 — 23:00</span>
@@ -2019,29 +985,25 @@ footer {
             <span class="hours-day">Public Holidays</span><span class="hours-time">12:00 — 21:00</span>
           </div>
         </div>
-
-        <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(201,169,110,0.06); border: 1px solid rgba(201,169,110,0.15);">
-          <div style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem;">Dress Code</div>
-          <p style="font-size: 0.82rem; color: var(--muted); line-height: 1.6;">Smart casual for all services. Chef's table experience requires smart-formal attire.</p>
+        <div style="margin-top: 1.5rem; padding: 1.25rem; background: rgba(201,169,110,0.06); border: 1px solid rgba(201,169,110,0.15);">
+          <div style="font-size: 0.7rem; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem;">Dress Code</div>
+          <p style="font-size: 0.8rem; color: var(--muted); line-height: 1.6;">Smart casual for all services. Chef's table requires smart-formal attire.</p>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===========================
-     ABOUT PAGE
-=========================== -->
+<!-- =================== ABOUT PAGE =================== -->
 <section id="about" class="page">
   <div class="about-hero">
     <div class="about-hero-bg"></div>
     <div style="position: relative; z-index: 2; padding: 0 5%;">
       <span class="label">Our Heritage</span>
-      <h1 class="display-title" style="font-size: clamp(2.5rem, 6vw, 5rem);">A Story Steeped<br><em>in Tradition</em></h1>
+      <h1 class="display-title" style="font-size: clamp(2.2rem, 7vw, 5rem);">A Story Steeped<br><em>in Tradition</em></h1>
     </div>
   </div>
 
-  <!-- STORY -->
   <div class="container section">
     <div class="about-story">
       <div class="story-text">
@@ -2051,117 +1013,50 @@ footer {
         <p class="body-text" style="margin-bottom: 1.5rem;">Founded in 2026 by the Varikkan family in Kozhikode, Kerala, our journey began with a single estate and a handwritten recipe book passed through four generations. Today, we source from 12 partner estates across South India, Sri Lanka, and Darjeeling.</p>
         <p class="body-text" style="margin-bottom: 2rem;">Our kitchen transforms these leaves into full culinary experiences — teas that are brewed, cooked into sauces, smoked over, and infused into every corner of our menu.</p>
         <div class="history-timeline">
-          <div class="history-event">
-            <div class="history-year">2026</div>
-            <div class="history-event-title">The First Cup</div>
-            <p class="history-event-desc">Founding of Varikkans Tea Company in the Malabar coastal quarter of Kozhikode with a 30-seat tearoom.</p>
-          </div>
-          <div class="history-event">
-            <div class="history-year">2027</div>
-            <div class="history-event-title">Estate Partnerships</div>
-            <p class="history-event-desc">Formal agreements signed with six estates across Nilgiri and Wayanad. First limited-edition single-origin release.</p>
-          </div>
-          <div class="history-event">
-            <div class="history-year">2029</div>
-            <div class="history-event-title">National Recognition</div>
-            <p class="history-event-desc">Featured in Forbes India's 'Most Distinctive Dining Experiences' and awarded Best Artisanal Tearoom, South India.</p>
-          </div>
-          <div class="history-event">
-            <div class="history-year">2031</div>
-            <div class="history-event-title">International Expansion</div>
-            <p class="history-event-desc">Opening of Varikkans London and Varikkans Dubai, bringing Malabar hospitality to a global stage.</p>
-          </div>
+          <div class="history-event"><div class="history-year">2026</div><div class="history-event-title">The First Cup</div><p class="history-event-desc">Founding of Varikkans Tea Company in Kozhikode with a 30-seat tearoom.</p></div>
+          <div class="history-event"><div class="history-year">2027</div><div class="history-event-title">Estate Partnerships</div><p class="history-event-desc">Formal agreements signed with six estates across Nilgiri and Wayanad.</p></div>
+          <div class="history-event"><div class="history-year">2029</div><div class="history-event-title">National Recognition</div><p class="history-event-desc">Featured in Forbes India and awarded Best Artisanal Tearoom, South India.</p></div>
+          <div class="history-event"><div class="history-year">2031</div><div class="history-event-title">International Expansion</div><p class="history-event-desc">Opening of Varikkans London and Dubai, bringing Malabar hospitality to a global stage.</p></div>
         </div>
       </div>
       <div class="story-images">
-        <img class="story-img" src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2070&auto=format&fit=crop" alt="Tea estate" style="height: 300px;">
-        <img class="story-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop" alt="Tea ceremony" style="height: 220px;">
-        <img class="story-img" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=2074&auto=format&fit=crop" alt="Kitchen craft" style="height: 260px;">
+        <img class="story-img" src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?q=80&w=2070&auto=format&fit=crop" alt="Tea estate" style="height: 280px;">
+        <img class="story-img" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop" alt="Tea ceremony" style="height: 200px;">
+        <img class="story-img" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?q=80&w=2074&auto=format&fit=crop" alt="Kitchen craft" style="height: 240px;">
       </div>
     </div>
   </div>
 
-  <!-- VALUES -->
-  <div style="background: var(--mid); padding: 80px 0;">
+  <div style="background: var(--mid); padding: 70px 0;">
     <div class="container">
-      <div style="text-align: center; margin-bottom: 4rem;">
+      <div style="text-align: center; margin-bottom: 3.5rem;">
         <span class="label">What We Stand For</span>
         <h2 class="section-title">Our Core <em>Values</em></h2>
       </div>
       <div class="values-grid">
-        <div class="value-box">
-          <div class="value-num">01</div>
-          <div class="value-title">Provenance</div>
-          <p class="value-desc">We trace every ingredient to its source. Our guests deserve to know the story behind their cup and their plate. Transparency is not a policy — it is a promise.</p>
-        </div>
-        <div class="value-box">
-          <div class="value-num">02</div>
-          <div class="value-title">Craftsmanship</div>
-          <p class="value-desc">In an age of automation, we choose the slow path. Hand-plucking, traditional rolling, clay-pot brewing — the methods that take longer are the ones worth keeping.</p>
-        </div>
-        <div class="value-box">
-          <div class="value-num">03</div>
-          <div class="value-title">Stewardship</div>
-          <p class="value-desc">The land that feeds us is a responsibility, not a resource. We work exclusively with certified organic estates and donate 2% of revenue to rural farmers' welfare.</p>
-        </div>
-        <div class="value-box">
-          <div class="value-num">04</div>
-          <div class="value-title">Community</div>
-          <p class="value-desc">We employ exclusively from within 50km of each location, train baristas in traditional blending arts, and host monthly free tea education sessions for the public.</p>
-        </div>
-        <div class="value-box">
-          <div class="value-num">05</div>
-          <div class="value-title">Innovation</div>
-          <p class="value-desc">Our R&D kitchen experiments with tea-infused fermentation, novel pairing science, and collaborative research with Kerala Agricultural University.</p>
-        </div>
-        <div class="value-box">
-          <div class="value-num">06</div>
-          <div class="value-title">Hospitality</div>
-          <p class="value-desc">In Malayalam, we say <em>atithi devo bhava</em> — the guest is god. Every reservation, every interaction, every cup is a sacred act of welcome.</p>
-        </div>
+        <div class="value-box"><div class="value-num">01</div><div class="value-title">Provenance</div><p class="value-desc">We trace every ingredient to its source. Transparency is not a policy — it is a promise.</p></div>
+        <div class="value-box"><div class="value-num">02</div><div class="value-title">Craftsmanship</div><p class="value-desc">Hand-plucking, traditional rolling, clay-pot brewing — the methods that take longer are the ones worth keeping.</p></div>
+        <div class="value-box"><div class="value-num">03</div><div class="value-title">Stewardship</div><p class="value-desc">We work exclusively with certified organic estates and donate 2% of revenue to rural farmers' welfare.</p></div>
+        <div class="value-box"><div class="value-num">04</div><div class="value-title">Community</div><p class="value-desc">We employ exclusively from within 50km of each location and host monthly free tea education sessions.</p></div>
+        <div class="value-box"><div class="value-num">05</div><div class="value-title">Innovation</div><p class="value-desc">Our R&D kitchen experiments with tea-infused fermentation and novel pairing science.</p></div>
+        <div class="value-box"><div class="value-num">06</div><div class="value-title">Hospitality</div><p class="value-desc"><em>Atithi devo bhava</em> — the guest is god. Every reservation and every cup is a sacred act of welcome.</p></div>
       </div>
     </div>
   </div>
 
-  <!-- TEAM -->
   <div class="container section">
-    <div style="text-align: center; margin-bottom: 4rem;">
+    <div style="text-align: center; margin-bottom: 3.5rem;">
       <span class="label">The People Behind the Cup</span>
       <h2 class="section-title">Meet Our <em>Team</em></h2>
     </div>
     <div class="team-grid">
-      <div class="team-card">
-        <img class="team-img" src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?q=80&w=800&auto=format&fit=crop" alt="Chef">
-        <div class="team-info">
-          <div class="team-name">Priya Varikkan</div>
-          <div class="team-role">Founder & Head Curator</div>
-        </div>
-      </div>
-      <div class="team-card">
-        <img class="team-img" src="https://images.unsplash.com/photo-1583394293214-c3e8b11ccad4?q=80&w=800&auto=format&fit=crop" alt="Chef">
-        <div class="team-info">
-          <div class="team-name">Arjun Menon</div>
-          <div class="team-role">Executive Chef</div>
-        </div>
-      </div>
-      <div class="team-card">
-        <img class="team-img" src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=800&auto=format&fit=crop" alt="Tea Sommelier">
-        <div class="team-info">
-          <div class="team-name">Divya Krishnan</div>
-          <div class="team-role">Master Tea Sommelier</div>
-        </div>
-      </div>
-      <div class="team-card">
-        <img class="team-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop" alt="Pastry Chef">
-        <div class="team-info">
-          <div class="team-name">Samuel Rajan</div>
-          <div class="team-role">Head Pastry Artist</div>
-        </div>
-      </div>
+      <div class="team-card"><img class="team-img" src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?q=80&w=800&auto=format&fit=crop" alt="Priya Varikkan"><div class="team-info"><div class="team-name">Priya Varikkan</div><div class="team-role">Founder & Head Curator</div></div></div>
+      <div class="team-card"><img class="team-img" src="https://images.unsplash.com/photo-1583394293214-c3e8b11ccad4?q=80&w=800&auto=format&fit=crop" alt="Arjun Menon"><div class="team-info"><div class="team-name">Arjun Menon</div><div class="team-role">Executive Chef</div></div></div>
+      <div class="team-card"><img class="team-img" src="https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?q=80&w=800&auto=format&fit=crop" alt="Divya Krishnan"><div class="team-info"><div class="team-name">Divya Krishnan</div><div class="team-role">Master Tea Sommelier</div></div></div>
+      <div class="team-card"><img class="team-img" src="https://images.unsplash.com/photo-1578985545062-69928b1d9587?q=80&w=800&auto=format&fit=crop" alt="Samuel Rajan"><div class="team-info"><div class="team-name">Samuel Rajan</div><div class="team-role">Head Pastry Artist</div></div></div>
     </div>
   </div>
 
-  <!-- AWARDS -->
   <div class="press-strip">
     <div class="press-label">Awards & Accolades</div>
     <div class="press-logos">
@@ -2173,46 +1068,18 @@ footer {
   </div>
 </section>
 
-<!-- ===========================
-     CONTACT PAGE
-=========================== -->
+<!-- =================== CONTACT PAGE =================== -->
 <section id="contact" class="page">
-  <div style="padding-top: 80px;">
+  <div style="padding-top: 70px;">
     <div class="contact-layout">
       <div class="contact-left">
         <span class="label">Get In Touch</span>
-        <h2 class="section-title" style="margin-bottom: 2rem;">We'd Love to<br><em>Hear From You</em></h2>
-        <p class="body-text" style="margin-bottom: 3rem;">Whether you're planning a corporate event, private dining experience, tea ceremony, or simply wish to ask about our offerings — our team is here.</p>
-
-        <div class="contact-info-item">
-          <div class="contact-icon">📍</div>
-          <div>
-            <div class="contact-info-title">Flagship Location</div>
-            <div class="contact-info-text">23 Mittai Theruvu, Kuttichira Quarter<br>Kozhikode, Kerala 673001, India</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">📞</div>
-          <div>
-            <div class="contact-info-title">Phone & WhatsApp</div>
-            <div class="contact-info-text">+91 495 276 0000<br>+91 98950 12345 (WhatsApp)</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">✉️</div>
-          <div>
-            <div class="contact-info-title">Email</div>
-            <div class="contact-info-text">hello@varikkans.com<br>events@varikkans.com<br>press@varikkans.com</div>
-          </div>
-        </div>
-        <div class="contact-info-item">
-          <div class="contact-icon">🌍</div>
-          <div>
-            <div class="contact-info-title">International Locations</div>
-            <div class="contact-info-text">Varikkans London · Dubai · Singapore<br>Opening Colombo & Kuala Lumpur 2026</div>
-          </div>
-        </div>
-
+        <h2 class="section-title" style="margin-bottom: 1.75rem;">We'd Love to<br><em>Hear From You</em></h2>
+        <p class="body-text" style="margin-bottom: 2.5rem;">Whether you're planning a corporate event, private dining experience, or tea ceremony — our team is here.</p>
+        <div class="contact-info-item"><div class="contact-icon">📍</div><div><div class="contact-info-title">Flagship Location</div><div class="contact-info-text">23 Mittai Theruvu, Kuttichira Quarter<br>Kozhikode, Kerala 673001, India</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">📞</div><div><div class="contact-info-title">Phone & WhatsApp</div><div class="contact-info-text">+91 495 276 0000<br>+91 98950 12345 (WhatsApp)</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">✉️</div><div><div class="contact-info-title">Email</div><div class="contact-info-text">hello@varikkans.com<br>events@varikkans.com</div></div></div>
+        <div class="contact-info-item"><div class="contact-icon">🌍</div><div><div class="contact-info-title">International Locations</div><div class="contact-info-text">London · Dubai · Singapore<br>Opening Colombo & KL 2026</div></div></div>
         <div class="social-row">
           <a href="#" class="social-btn" title="Instagram">📸</a>
           <a href="#" class="social-btn" title="Facebook">👍</a>
@@ -2221,191 +1088,111 @@ footer {
           <a href="#" class="social-btn" title="LinkedIn">💼</a>
         </div>
       </div>
-
       <div class="contact-right">
         <div class="form-section-title">Send a Message</div>
         <form onsubmit="handleContactForm(event)">
           <div class="form-row">
-            <div class="form-group">
-              <label>Your Name</label>
-              <input type="text" placeholder="Full name" required>
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" placeholder="your@email.com" required>
-            </div>
+            <div class="form-group"><label>Your Name</label><input type="text" placeholder="Full name" required></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="your@email.com" required></div>
           </div>
-          <div class="form-group">
-            <label>Subject</label>
+          <div class="form-group"><label>Subject</label>
             <select required>
               <option value="">Select a topic</option>
-              <option>Table Reservation</option>
-              <option>Private Event / Corporate Dining</option>
-              <option>Chef's Table Booking</option>
-              <option>Tea Ceremony Enquiry</option>
-              <option>Press & Media</option>
-              <option>Career Opportunities</option>
-              <option>Wholesale & Trade</option>
-              <option>Feedback</option>
-              <option>Other</option>
+              <option>Table Reservation</option><option>Private Event / Corporate Dining</option>
+              <option>Chef's Table Booking</option><option>Tea Ceremony Enquiry</option>
+              <option>Press & Media</option><option>Career Opportunities</option>
+              <option>Wholesale & Trade</option><option>Feedback</option><option>Other</option>
             </select>
           </div>
-          <div class="form-group">
-            <label>Message</label>
-            <textarea rows="5" placeholder="Tell us how we can help..." required></textarea>
-          </div>
-          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
-            Send Message <span class="btn-arrow">→</span>
-          </button>
+          <div class="form-group"><label>Message</label><textarea rows="5" placeholder="Tell us how we can help..." required></textarea></div>
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Send Message <span class="btn-arrow">→</span></button>
         </form>
-
-        <!-- MAP PLACEHOLDER -->
         <div class="map-placeholder">
           <div class="map-grid"></div>
-          <div class="map-label">
-            <div class="map-pin">📍</div>
-            <p style="font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: 1px;">KOZHIKODE FLAGSHIP</p>
-          </div>
+          <div class="map-label"><div class="map-pin">📍</div><p style="font-size: 0.72rem; color: var(--muted); margin-top: 0.5rem; letter-spacing: 1px;">KOZHIKODE FLAGSHIP</p></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===========================
-     ADMIN LOGIN
-=========================== -->
+<!-- =================== ADMIN LOGIN =================== -->
 <section id="admin-login" class="page">
   <div class="admin-login-wrap">
     <div class="admin-card">
       <div class="admin-card-logo">VARIKKANS</div>
       <div class="admin-card-sub">Staff Portal — Authorised Access Only</div>
-      <div class="form-group">
-        <label>Username</label>
-        <input type="text" id="admin-user" placeholder="Enter your username">
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" id="admin-pass" placeholder="Enter your password" onkeydown="if(event.key==='Enter') verifyAdmin()">
-      </div>
+      <div class="form-group"><label>Username</label><input type="text" id="admin-user" placeholder="Enter your username" autocomplete="username"></div>
+      <div class="form-group"><label>Password</label><input type="password" id="admin-pass" placeholder="Enter your password" autocomplete="current-password" onkeydown="if(event.key==='Enter') verifyAdmin()"></div>
       <button class="btn-primary" onclick="verifyAdmin()" style="width: 100%; justify-content: center;">Sign In →</button>
       <div class="login-error" id="login-error">Incorrect credentials. Please try again.</div>
-      <p style="font-size: 0.7rem; color: var(--muted); text-align: center; margin-top: 1.5rem;">Demo: admin / admin123</p>
+      <p style="font-size: 0.68rem; color: var(--muted); text-align: center; margin-top: 1.5rem; opacity: 0.7;">Demo: varikkans / varikkans@2024</p>
     </div>
   </div>
 </section>
 
-<!-- ===========================
-     ADMIN DASHBOARD
-=========================== -->
+<!-- =================== ADMIN DASHBOARD =================== -->
 <section id="admin-dashboard" class="page">
   <div class="admin-wrapper">
     <div class="admin-header">
       <div>
         <div class="admin-title">Menu Manager</div>
-        <p class="body-text" style="font-size: 0.8rem; margin-top: 0.25rem;">Manage your restaurant's live menu content</p>
+        <p class="body-text" style="font-size: 0.78rem; margin-top: 0.25rem;">Manage your restaurant's live menu content</p>
       </div>
-      <div style="display: flex; gap: 1rem; align-items: center;">
-        <button class="btn-outline" onclick="switchPage('menu')" style="padding: 0.6rem 1.2rem; font-size: 0.65rem;">View Live Menu</button>
-        <button class="btn-primary" style="background: #333; border: none; padding: 0.6rem 1.2rem; font-size: 0.65rem;" onclick="logout()">Sign Out →</button>
+      <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <button class="btn-outline" onclick="switchPage('menu')" style="padding: 0.55rem 1.1rem; font-size: 0.62rem;">View Live Menu</button>
+        <button class="btn-primary" style="background: #333; border: none; padding: 0.55rem 1.1rem; font-size: 0.62rem;" onclick="logout()">Sign Out →</button>
       </div>
     </div>
 
     <div class="admin-stats-row">
-      <div class="admin-stat-card">
-        <div class="admin-stat-num" id="stat-items">0</div>
-        <div class="admin-stat-label">Active Menu Items</div>
-      </div>
-      <div class="admin-stat-card" style="border-left-color: #27ae60;">
-        <div class="admin-stat-num" id="stat-cats">0</div>
-        <div class="admin-stat-label">Categories</div>
-      </div>
-      <div class="admin-stat-card" style="border-left-color: #3498db;">
-        <div class="admin-stat-num">38.4k</div>
-        <div class="admin-stat-label">Total Guests Served</div>
-      </div>
-      <div class="admin-stat-card" style="border-left-color: #9b59b6;">
-        <div class="admin-stat-num">4.9★</div>
-        <div class="admin-stat-label">Average Rating</div>
-      </div>
+      <div class="admin-stat-card"><div class="admin-stat-num" id="stat-items">0</div><div class="admin-stat-label">Active Items</div></div>
+      <div class="admin-stat-card" style="border-left-color: #27ae60;"><div class="admin-stat-num" id="stat-cats">0</div><div class="admin-stat-label">Categories</div></div>
+      <div class="admin-stat-card" style="border-left-color: #3498db;"><div class="admin-stat-num">38.4k</div><div class="admin-stat-label">Guests Served</div></div>
+      <div class="admin-stat-card" style="border-left-color: #9b59b6;"><div class="admin-stat-num">4.9★</div><div class="admin-stat-label">Avg. Rating</div></div>
     </div>
 
-    <!-- ADD ITEM -->
     <div class="admin-section">
       <div class="admin-section-title">
         Add New Menu Item
-        <span style="font-size: 0.7rem; font-family: var(--font-body); color: var(--muted); font-weight: 300; font-style: normal;">* Required fields</span>
+        <span style="font-size: 0.68rem; font-family: var(--font-body); color: var(--muted); font-weight: 300; font-style: normal;">* Required fields</span>
       </div>
       <div class="admin-form-grid">
-        <div class="form-group">
-          <label>Item Name *</label>
-          <input type="text" id="new-name" placeholder="e.g. Cardamom Spiced Crème Brûlée">
-        </div>
-        <div class="form-group">
-          <label>Price *</label>
-          <input type="text" id="new-price" placeholder="e.g. ₹650">
-        </div>
-        <div class="form-group">
-          <label>Category *</label>
+        <div class="form-group"><label>Item Name *</label><input type="text" id="new-name" placeholder="e.g. Cardamom Spiced Crème Brûlée"></div>
+        <div class="form-group"><label>Price *</label><input type="text" id="new-price" placeholder="e.g. ₹650"></div>
+        <div class="form-group"><label>Category *</label>
           <select id="new-cat">
             <option value="">Select category</option>
-            <option>Teas & Brews</option>
-            <option>Brunch</option>
-            <option>Light Bites</option>
-            <option>Mains</option>
-            <option>Desserts</option>
-            <option>Cocktails & Mocktails</option>
-            <option>Chef's Specials</option>
+            <option>Teas & Brews</option><option>Brunch</option><option>Light Bites</option>
+            <option>Mains</option><option>Desserts</option><option>Cocktails & Mocktails</option><option>Chef's Specials</option>
           </select>
         </div>
-        <div class="form-group">
-          <label>Dietary Tags</label>
+        <div class="form-group"><label>Dietary Tags</label>
           <select id="new-dietary">
-            <option value="">None</option>
-            <option>V — Vegan</option>
-            <option>VG — Vegetarian</option>
-            <option>GF — Gluten Free</option>
-            <option>N — Contains Nuts</option>
-            <option>Signature</option>
+            <option value="">None</option><option>V — Vegan</option><option>VG — Vegetarian</option>
+            <option>GF — Gluten Free</option><option>N — Contains Nuts</option><option>Signature</option>
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label>Image URL (Optional)</label>
-        <input type="text" id="new-img" placeholder="https://... (leave blank for default)">
-      </div>
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="new-desc" rows="2" placeholder="A brief, enticing description of the dish..."></textarea>
-      </div>
+      <div class="form-group"><label>Image URL (Optional)</label><input type="text" id="new-img" placeholder="https://... (leave blank for default)"></div>
+      <div class="form-group"><label>Description</label><textarea id="new-desc" rows="2" placeholder="A brief, enticing description of the dish..."></textarea></div>
       <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
         <button class="btn-primary" onclick="addItem()">Add to Menu →</button>
         <div class="toggle-wrap">
-          <span style="font-size: 0.75rem; color: var(--muted);">Mark as Chef's Special</span>
+          <span style="font-size: 0.73rem; color: var(--muted);">Mark as Chef's Special</span>
           <div class="toggle" id="special-toggle" onclick="this.classList.toggle('on')"></div>
         </div>
       </div>
     </div>
 
-    <!-- MENU TABLE -->
     <div class="admin-section">
       <div class="admin-section-title">
         Live Menu Items
-        <input type="text" id="search-menu" placeholder="Search items..." oninput="renderMenu()" style="width: 250px; padding: 0.5rem 1rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,169,110,0.15); color: var(--cream); font-family: var(--font-body); font-size: 0.8rem; outline: none;">
+        <input type="text" id="search-menu" placeholder="Search items..." oninput="renderMenu()" style="width: 240px; padding: 0.5rem 0.85rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,169,110,0.15); color: var(--cream); font-family: var(--font-body); font-size: 0.78rem; outline: none;">
       </div>
-      <div style="overflow-x: auto;">
+      <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
         <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Price</th>
-              <th>Tags</th>
-              <th>Visibility</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Tags</th><th>Visibility</th><th>Actions</th></tr></thead>
           <tbody id="admin-menu-list"></tbody>
         </table>
       </div>
@@ -2419,7 +1206,7 @@ footer {
     <div>
       <div class="footer-brand-name">VARIKKANS TEA COMPANY</div>
       <p class="footer-brand-desc">An artisanal tea and dining experience rooted in the rich heritage of Malabar, Kerala. Estate-sourced, thoughtfully crafted, lovingly served.</p>
-      <div class="social-row" style="margin-top: 2rem;">
+      <div class="social-row" style="margin-top: 1.75rem;">
         <a href="#" class="social-btn">📸</a>
         <a href="#" class="social-btn">👍</a>
         <a href="#" class="social-btn">🐦</a>
@@ -2439,28 +1226,22 @@ footer {
     <div>
       <div class="footer-col-title">Services</div>
       <ul class="footer-links">
-        <li><a>Private Dining</a></li>
-        <li><a>Chef's Table</a></li>
-        <li><a>Tea Ceremonies</a></li>
-        <li><a>Corporate Events</a></li>
-        <li><a>Tea Subscriptions</a></li>
-        <li><a>Cooking Classes</a></li>
+        <li><a>Private Dining</a></li><li><a>Chef's Table</a></li>
+        <li><a>Tea Ceremonies</a></li><li><a>Corporate Events</a></li>
+        <li><a>Tea Subscriptions</a></li><li><a>Cooking Classes</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Company</div>
       <ul class="footer-links">
-        <li><a>Sustainability</a></li>
-        <li><a>Press & Media</a></li>
-        <li><a>Careers</a></li>
-        <li><a>Wholesale</a></li>
-        <li><a>Privacy Policy</a></li>
-        <li><a>Terms of Service</a></li>
+        <li><a>Sustainability</a></li><li><a>Press & Media</a></li>
+        <li><a>Careers</a></li><li><a>Wholesale</a></li>
+        <li><a>Privacy Policy</a></li><li><a>Terms of Service</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2026 Varikkans Tea Company. All rights reserved. Kozhikode · London · Dubai · Singapore</div>
+    <div class="footer-copy">© 2026 Varikkans Tea Company · Kozhikode · London · Dubai · Singapore</div>
     <a class="admin-link-footer" onclick="switchPage('admin-login')">Staff Login</a>
   </div>
 </footer>
@@ -2473,7 +1254,7 @@ footer {
 
 <!-- COOKIE BANNER -->
 <div class="cookie-banner" id="cookie-banner">
-  <div class="cookie-text">We use cookies to enhance your browsing experience and analyse site traffic. By clicking "Accept", you consent to our use of cookies. <a>Read our Cookie Policy →</a></div>
+  <div class="cookie-text">We use cookies to enhance your browsing experience and analyse site traffic. <a>Read our Cookie Policy →</a></div>
   <div class="cookie-btns">
     <button class="btn-cookie btn-decline" onclick="dismissCookie()">Decline</button>
     <button class="btn-cookie btn-accept" onclick="dismissCookie()">Accept All</button>
@@ -2485,17 +1266,17 @@ footer {
 // DATA
 // ===========================
 let menuItems = [
-  { id: 1, name: "Malabar Cardamom Chai", price: "₹180", category: "Teas & Brews", tag: "Signature", img: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?q=80&w=2070&auto=format&fit=crop", desc: "Our house blend. Hand-rolled Assam leaf, crushed green cardamom, fresh ginger and raw jaggery. Brewed in a clay pot, served with cane sugar on the side.", visible: true },
+  { id: 1, name: "Malabar Cardamom Chai", price: "₹180", category: "Teas & Brews", tag: "Signature", img: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?q=80&w=2070&auto=format&fit=crop", desc: "Our house blend. Hand-rolled Assam leaf, crushed green cardamom, fresh ginger and raw jaggery. Brewed in a clay pot.", visible: true },
   { id: 2, name: "Nilgiri Frost Green Tea", price: "₹280", category: "Teas & Brews", tag: "GF", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2064&auto=format&fit=crop", desc: "Rare winter-harvest green tea from the Nilgiri frost estates. Delicate, vegetal and slightly floral with a lingering sweetness.", visible: true },
   { id: 3, name: "Smoked Salmon Avocado Toast", price: "₹520", category: "Brunch", tag: "GF", img: "https://images.unsplash.com/photo-1588137372308-15f75323a399?q=80&w=2070&auto=format&fit=crop", desc: "Toasted sourdough, smashed avocado, sustainably-sourced smoked salmon, pickled red onion, capers, dill oil.", visible: true },
   { id: 4, name: "Malabar Spice Risotto", price: "₹850", category: "Chef's Specials", tag: "Signature", img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?q=80&w=2070&auto=format&fit=crop", desc: "Arborio rice finished with Malabar pepper butter, wild mushroom jus and a 24-hour tea-braised egg yolk.", visible: true },
-  { id: 5, name: "Wagyu Short Rib", price: "₹1,850", category: "Mains", tag: "V — Vegan", img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop", desc: "48-hour sous-vide wagyu short rib, glazed with a Darjeeling reduction, served with cardamom mash and pickled green mango.", visible: true },
-  { id: 6, name: "Cardamom Crème Brûlée", price: "₹420", category: "Desserts", tag: "VG — Vegetarian", img: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?q=80&w=2070&auto=format&fit=crop", desc: "Classic crème brûlée infused with Kerala green cardamom and served with house-made candied ginger and a kokum sorbet.", visible: true },
+  { id: 5, name: "Wagyu Short Rib", price: "₹1,850", category: "Mains", tag: "", img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop", desc: "48-hour sous-vide wagyu short rib, glazed with a Darjeeling reduction, served with cardamom mash and pickled green mango.", visible: true },
+  { id: 6, name: "Cardamom Crème Brûlée", price: "₹420", category: "Desserts", tag: "VG — Vegetarian", img: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?q=80&w=2070&auto=format&fit=crop", desc: "Classic crème brûlée infused with Kerala green cardamom, served with candied ginger and a kokum sorbet.", visible: true },
   { id: 7, name: "Turmeric Honey Latte", price: "₹220", category: "Teas & Brews", tag: "VG — Vegetarian", img: "https://images.unsplash.com/photo-1603209618784-8d2f60b97c89?q=80&w=2069&auto=format&fit=crop", desc: "Steamed oat milk with wild turmeric, raw Wayanad honey, black pepper and a hint of cinnamon.", visible: true },
-  { id: 8, name: "Banana Blossom Ceviche", price: "₹380", category: "Light Bites", tag: "V — Vegan", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=2067&auto=format&fit=crop", desc: "Kerala banana blossom cured in kokum and green mango, fresh herbs, toasted coconut and a Nilgiri tea sorbet garnish.", visible: true }
+  { id: 8, name: "Banana Blossom Ceviche", price: "₹380", category: "Light Bites", tag: "V — Vegan", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=2067&auto=format&fit=crop", desc: "Kerala banana blossom cured in kokum and green mango, fresh herbs, toasted coconut and a Nilgiri tea sorbet.", visible: true }
 ];
 
-let testimonials = [
+const testimonials = [
   { name: "Charlotte Webb", country: "London, UK", quote: "The cardamom chai alone is worth the journey to Kozhikode. An utterly transcendent experience from first cup to last bite.", stars: 5, avatar: "https://i.pravatar.cc/44?img=1" },
   { name: "Akira Tanaka", country: "Tokyo, Japan", quote: "I have visited over 200 teahouses worldwide. Varikkans is in a different category entirely. The Nilgiri Frost alone is a revelation.", stars: 5, avatar: "https://i.pravatar.cc/44?img=2" },
   { name: "Maria García", country: "Barcelona, Spain", quote: "The tasting menu is a culinary poem. Every course builds on the last, weaving tea into food in ways I never imagined possible.", stars: 5, avatar: "https://i.pravatar.cc/44?img=3" },
@@ -2505,22 +1286,21 @@ let testimonials = [
 ];
 
 // ===========================
-// PAGE NAVIGATION
+// NAVIGATION
 // ===========================
 function switchPage(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   const navMap = { 'home': 0, 'menu': 1, 'about': 2, 'contact': 3, 'preorder': 4 };
   const navItems = document.querySelectorAll('.nav-item');
-  if (navMap[pageId] !== undefined && navItems[navMap[pageId]]) {
-    navItems[navMap[pageId]].classList.add('active');
-  }
+  if (navMap[pageId] !== undefined && navItems[navMap[pageId]]) navItems[navMap[pageId]].classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ===========================
-// RENDER MENU
+// MENU RENDERING
 // ===========================
 function filterMenu(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -2530,7 +1310,7 @@ function filterMenu(cat, btn) {
 
 function renderPublicMenu(filter) {
   const container = document.getElementById('menu-container');
-  const searchTerm = '';
+  if (!container) return;
   let items = menuItems.filter(i => i.visible !== false);
   if (filter && filter !== 'All') items = items.filter(i => i.category === filter);
   container.innerHTML = '';
@@ -2540,7 +1320,7 @@ function renderPublicMenu(filter) {
     card.innerHTML = `
       ${item.tag === 'Signature' ? '<div class="card-badge">Signature</div>' : ''}
       <div class="menu-card-img-wrap">
-        <img class="menu-card-img" src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000'">
+        <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000'">
         <div class="card-overlay"></div>
       </div>
       <div class="menu-card-body">
@@ -2560,6 +1340,7 @@ function renderPublicMenu(filter) {
 
 function buildFilters() {
   const filterBar = document.getElementById('menu-filter');
+  if (!filterBar) return;
   const cats = ['All', ...new Set(menuItems.map(i => i.category))];
   filterBar.innerHTML = '';
   cats.forEach((cat, i) => {
@@ -2573,25 +1354,20 @@ function buildFilters() {
 
 function renderAdminMenu() {
   const tbody = document.getElementById('admin-menu-list');
+  if (!tbody) return;
   const search = (document.getElementById('search-menu')?.value || '').toLowerCase();
   let items = menuItems.filter(i => !search || i.name.toLowerCase().includes(search) || i.category.toLowerCase().includes(search));
   tbody.innerHTML = '';
   items.forEach(item => {
     const row = document.createElement('tr');
     row.innerHTML = `
-      <td><img src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200'"></td>
+      <td><img src="${item.img}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200'" loading="lazy"></td>
       <td><span class="table-name">${item.name}</span></td>
       <td><span class="table-cat">${item.category}</span></td>
       <td><span class="table-price">${item.price}</span></td>
-      <td><span class="table-cat" style="border-color: rgba(255,255,255,0.1); color: var(--muted);">${item.tag || '—'}</span></td>
-      <td>
-        <div class="toggle ${item.visible !== false ? 'on' : ''}" onclick="toggleVisibility(${item.id}, this)"></div>
-      </td>
-      <td>
-        <div class="table-actions">
-          <button class="btn-delete" onclick="deleteItem(${item.id})">Delete</button>
-        </div>
-      </td>
+      <td><span class="table-cat" style="border-color:rgba(255,255,255,0.1);color:var(--muted);">${item.tag || '—'}</span></td>
+      <td><div class="toggle ${item.visible !== false ? 'on' : ''}" onclick="toggleVisibility(${item.id}, this)"></div></td>
+      <td><div class="table-actions"><button class="btn-delete" onclick="deleteItem(${item.id})">Delete</button></div></td>
     `;
     tbody.appendChild(row);
   });
@@ -2616,7 +1392,7 @@ function buildItemPicker() {
     el.dataset.id = item.id;
     el.innerHTML = `
       <div class="picker-check">✓</div>
-      <img class="picker-img" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200'">
+      <img class="picker-img" src="${item.img}" alt="${item.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200'">
       <div class="picker-name">${item.name}</div>
       <div class="picker-price">${item.price}</div>
     `;
@@ -2628,10 +1404,11 @@ function buildItemPicker() {
 // ===========================
 // ADMIN ACTIONS
 // ===========================
+// Updated credentials: varikkans / varikkans@2024
 function verifyAdmin() {
-  const user = document.getElementById('admin-user').value;
+  const user = document.getElementById('admin-user').value.trim();
   const pass = document.getElementById('admin-pass').value;
-  if (user === 'admin' && pass === 'admin123') {
+  if (user === 'varikkans' && pass === 'varikkans@2024') {
     document.getElementById('admin-user').value = '';
     document.getElementById('admin-pass').value = '';
     document.getElementById('login-error').style.display = 'none';
@@ -2639,6 +1416,8 @@ function verifyAdmin() {
     showToast('Welcome back', 'Signed in as Administrator');
   } else {
     document.getElementById('login-error').style.display = 'block';
+    document.getElementById('admin-pass').value = '';
+    document.getElementById('admin-pass').focus();
   }
 }
 
@@ -2655,18 +1434,11 @@ function addItem() {
   const img = document.getElementById('new-img').value.trim() || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop';
   const desc = document.getElementById('new-desc').value.trim();
   const isSpecial = document.getElementById('special-toggle').classList.contains('on');
-
-  if (!name || !price || !category) {
-    showToast('Missing Fields', 'Name, price and category are required', true);
-    return;
-  }
+  if (!name || !price || !category) { showToast('Missing Fields', 'Name, price and category are required', true); return; }
   menuItems.push({ id: Date.now(), name, price, category, tag: isSpecial ? 'Signature' : dietary || '', img, desc, visible: true });
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-price').value = '';
+  ['new-name','new-price','new-img','new-desc'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
   document.getElementById('new-cat').value = '';
   document.getElementById('new-dietary').value = '';
-  document.getElementById('new-img').value = '';
-  document.getElementById('new-desc').value = '';
   document.getElementById('special-toggle').classList.remove('on');
   renderMenu();
   showToast('Item Added', `"${name}" is now live on the menu`);
@@ -2699,30 +1471,14 @@ function submitReservation() {
   const email = document.getElementById('email')?.value;
   const date = document.getElementById('res-date')?.value;
   const time = document.getElementById('res-time')?.value;
-  if (!fname || !email || !date || !time) {
-    showToast('Missing Details', 'Please complete all required fields', true);
-    return;
-  }
+  if (!fname || !email || !date || !time) { showToast('Missing Details', 'Please complete all required fields', true); return; }
   showToast('Reservation Confirmed! 🎉', `A confirmation has been sent to ${email}`);
-  // Clear form
-  ['fname','lname','email','phone','res-date','notes'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.value = '';
-  });
+  ['fname','lname','email','phone','res-date','notes'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
   document.querySelectorAll('.picker-item.selected').forEach(el => el.classList.remove('selected'));
 }
 
-function handleContactForm(e) {
-  e.preventDefault();
-  showToast('Message Sent', 'We\'ll get back to you within 24 hours');
-  e.target.reset();
-}
-
-function handleNewsletter(e) {
-  e.preventDefault();
-  showToast('You\'re Subscribed!', 'Welcome to the Varikkans community');
-  e.target.reset();
-}
+function handleContactForm(e) { e.preventDefault(); showToast('Message Sent', 'We\'ll get back to you within 24 hours'); e.target.reset(); }
+function handleNewsletter(e) { e.preventDefault(); showToast('You\'re Subscribed!', 'Welcome to the Varikkans community'); e.target.reset(); }
 
 // ===========================
 // TOAST
@@ -2740,9 +1496,8 @@ function showToast(msg, sub, isError) {
 // SCROLL NAV
 // ===========================
 window.addEventListener('scroll', () => {
-  const nav = document.getElementById('main-nav');
-  nav.classList.toggle('scrolled', window.scrollY > 50);
-});
+  document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
 
 // ===========================
 // MOBILE MENU
@@ -2750,15 +1505,27 @@ window.addEventListener('scroll', () => {
 function toggleMobileMenu() {
   const menu = document.getElementById('mobile-menu');
   const hamburger = document.getElementById('hamburger');
-  menu.classList.toggle('open');
-  hamburger.classList.toggle('open');
+  const isOpen = menu.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
 }
+
+// Close mobile menu on backdrop tap
+document.getElementById('mobile-menu').addEventListener('click', function(e) {
+  if (e.target === this) toggleMobileMenu();
+});
+
+// Escape key closes menu
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && document.getElementById('mobile-menu').classList.contains('open')) toggleMobileMenu();
+});
 
 // ===========================
 // TESTIMONIALS
 // ===========================
 function buildTestimonials() {
   const track = document.getElementById('testimonial-track');
+  if (!track) return;
   const double = [...testimonials, ...testimonials];
   track.innerHTML = '';
   double.forEach(t => {
@@ -2769,11 +1536,8 @@ function buildTestimonials() {
       <div class="star-rating">${'★'.repeat(t.stars)}</div>
       <div class="testimonial-quote">${t.quote}</div>
       <div class="testimonial-meta">
-        <img class="testimonial-avatar" src="${t.avatar}" alt="${t.name}">
-        <div>
-          <div class="testimonial-name">${t.name}</div>
-          <div class="testimonial-country">${t.country}</div>
-        </div>
+        <img class="testimonial-avatar" src="${t.avatar}" alt="${t.name}" loading="lazy">
+        <div><div class="testimonial-name">${t.name}</div><div class="testimonial-country">${t.country}</div></div>
       </div>
     `;
     track.appendChild(card);
@@ -2781,35 +1545,26 @@ function buildTestimonials() {
 }
 
 // ===========================
+// COOKIE
+// ===========================
+function dismissCookie() {
+  document.getElementById('cookie-banner').classList.remove('show');
+  setTimeout(() => { const el = document.getElementById('cookie-banner'); if(el) el.remove(); }, 500);
+}
+
+// ===========================
 // INIT
 // ===========================
 window.addEventListener('load', () => {
-  // Hide loader
-  setTimeout(() => {
-    document.getElementById('loader').classList.add('hidden');
-  }, 2000);
-
-  // Set date on menu page
-  document.getElementById('menu-date').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-  // Build content
+  setTimeout(() => document.getElementById('loader').classList.add('hidden'), 2000);
+  const menuDate = document.getElementById('menu-date');
+  if (menuDate) menuDate.textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   renderMenu();
   buildTestimonials();
-
-  // Set today's date as min for reservations
   const dateInput = document.getElementById('res-date');
   if (dateInput) dateInput.min = new Date().toISOString().split('T')[0];
-
-  // Cookie banner
-  setTimeout(() => {
-    document.getElementById('cookie-banner').classList.add('show');
-  }, 3000);
+  setTimeout(() => { const cb = document.getElementById('cookie-banner'); if(cb) cb.classList.add('show'); }, 3000);
 });
-
-function dismissCookie() {
-  document.getElementById('cookie-banner').classList.remove('show');
-  setTimeout(() => document.getElementById('cookie-banner').remove(), 500);
-}
 </script>
 </body>
 </html>
