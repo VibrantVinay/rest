@@ -2538,7 +2538,7 @@ function renderAdminMenu() {
       <td><span class="table-price">${item.price}</span></td>
       <td><span class="table-cat" style="border-color: rgba(255,255,255,0.1); color: var(--muted);">${item.tag || '—'}</span></td>
       <td>
-        <div class="toggle ${item.visible !== false ? 'on' : ''}" onclick="toggleVisibility(${item.id}, this)"></div>
+        <div class="toggle ${item.visible !== false ? 'on' : ''}" onclick="toggleVisibility('${item._id}', this)"></div>
       </td>
       <td>
         <div class="table-actions">
