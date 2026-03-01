@@ -2566,7 +2566,7 @@ function buildItemPicker() {
   menuItems.slice(0, 6).forEach(item => {
     const el = document.createElement('div');
     el.className = 'picker-item';
-    el.dataset.id = item.id;
+    el.dataset.id = item._id;
     el.innerHTML = `
       <div class="picker-check">✓</div>
       <img class="picker-img" src="${item.img}" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200'">
