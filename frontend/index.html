@@ -2438,28 +2438,25 @@ a Story.
 
 <script>
 // ===========================
-// DATA
 // ===========================
-let menuItems = [
-  { id: 1, name: "Malabar Cardamom Chai", price: "₹180", category: "Teas & Brews", tag: "Signature", img: "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?q=80&w=2070&auto=format&fit=crop", desc: "Our house blend. Hand-rolled Assam leaf, crushed green cardamom, fresh ginger and raw jaggery. Brewed in a clay pot, served with cane sugar on the side.", visible: true },
-  { id: 2, name: "Nilgiri Frost Green Tea", price: "₹280", category: "Teas & Brews", tag: "GF", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?q=80&w=2064&auto=format&fit=crop", desc: "Rare winter-harvest green tea from the Nilgiri frost estates. Delicate, vegetal and slightly floral with a lingering sweetness.", visible: true },
-  { id: 3, name: "Smoked Salmon Avocado Toast", price: "₹520", category: "Brunch", tag: "GF", img: "https://images.unsplash.com/photo-1588137372308-15f75323a399?q=80&w=2070&auto=format&fit=crop", desc: "Toasted sourdough, smashed avocado, sustainably-sourced smoked salmon, pickled red onion, capers, dill oil.", visible: true },
-  { id: 4, name: "Malabar Spice Risotto", price: "₹850", category: "Chef's Specials", tag: "Signature", img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?q=80&w=2070&auto=format&fit=crop", desc: "Arborio rice finished with Malabar pepper butter, wild mushroom jus and a 24-hour tea-braised egg yolk.", visible: true },
-  { id: 5, name: "Wagyu Short Rib", price: "₹1,850", category: "Mains", tag: "V — Vegan", img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=2069&auto=format&fit=crop", desc: "48-hour sous-vide wagyu short rib, glazed with a Darjeeling reduction, served with cardamom mash and pickled green mango.", visible: true },
-  { id: 6, name: "Cardamom Crème Brûlée", price: "₹420", category: "Desserts", tag: "VG — Vegetarian", img: "https://images.unsplash.com/photo-1470124182917-cc6e71b22ecc?q=80&w=2070&auto=format&fit=crop", desc: "Classic crème brûlée infused with Kerala green cardamom and served with house-made candied ginger and a kokum sorbet.", visible: true },
-  { id: 7, name: "Turmeric Honey Latte", price: "₹220", category: "Teas & Brews", tag: "VG — Vegetarian", img: "https://images.unsplash.com/photo-1603209618784-8d2f60b97c89?q=80&w=2069&auto=format&fit=crop", desc: "Steamed oat milk with wild turmeric, raw Wayanad honey, black pepper and a hint of cinnamon.", visible: true },
-  { id: 8, name: "Banana Blossom Ceviche", price: "₹380", category: "Light Bites", tag: "V — Vegan", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=2067&auto=format&fit=crop", desc: "Kerala banana blossom cured in kokum and green mango, fresh herbs, toasted coconut and a Nilgiri tea sorbet garnish.", visible: true }
-];
+// DATA & API CONNECTION
+// ===========================
+// Add your live Railway URL here (keep the /api at the end)
+const API_BASE = 'https://railway.com/project/2b974fdf-0f22-47ec-af8f-9c92a9971f34?environmentId=c9729c83-c2be-4fb9-876a-8cd8a0fe4ebb/api'; 
 
-let testimonials = [
-  { name: "Charlotte Webb", country: "London, UK", quote: "The cardamom chai alone is worth the journey to Kozhikode. An utterly transcendent experience from first cup to last bite.", stars: 5, avatar: "https://i.pravatar.cc/44?img=1" },
-  { name: "Akira Tanaka", country: "Tokyo, Japan", quote: "I have visited over 200 teahouses worldwide. Varikkans is in a different category entirely. The Nilgiri Frost alone is a revelation.", stars: 5, avatar: "https://i.pravatar.cc/44?img=2" },
-  { name: "Maria García", country: "Barcelona, Spain", quote: "The tasting menu is a culinary poem. Every course builds on the last, weaving tea into food in ways I never imagined possible.", stars: 5, avatar: "https://i.pravatar.cc/44?img=3" },
-  { name: "James Okafor", country: "Lagos, Nigeria", quote: "Exceptional hospitality, world-class ingredients, and a sense of place that is irreplaceable. I return every time I'm in Kerala.", stars: 5, avatar: "https://i.pravatar.cc/44?img=4" },
-  { name: "Sophie Dubois", country: "Paris, France", quote: "As a Parisian food critic, I approach every new restaurant with scepticism. Varikkans silenced it within the first three minutes.", stars: 5, avatar: "https://i.pravatar.cc/44?img=5" },
-  { name: "Ravi Shankar", country: "Mumbai, India", quote: "Our family has been coming here since opening. It's a rare thing — a restaurant that gets better every single year.", stars: 5, avatar: "https://i.pravatar.cc/44?img=6" },
-];
+let menuItems = []; // Start empty, we will fetch from the database!
 
+// --- NEW: Fetch live data from Railway ---
+async function loadMenuFromServer() {
+  try {
+    const response = await fetch(`${API_BASE}/menu`);
+    menuItems = await response.json();
+    renderMenu(); // Re-draw the page with the live data
+  } catch (error) {
+    console.error("Could not connect to database:", error);
+    showToast('Offline', 'Could not load live menu', true);
+  }
+}
 // ===========================
 // PAGE NAVIGATION
 // ===========================
@@ -2545,7 +2542,7 @@ function renderAdminMenu() {
       </td>
       <td>
         <div class="table-actions">
-          <button class="btn-delete" onclick="deleteItem(${item.id})">Delete</button>
+          <button class="btn-delete" onclick="deleteItem('${item._id}')">Delete</button>
         </div>
       </td>
     `;
@@ -2603,7 +2600,7 @@ function logout() {
   showToast('Signed out', 'See you next time');
 }
 
-function addItem() {
+async function addItem() {
   const name = document.getElementById('new-name').value.trim();
   const price = document.getElementById('new-price').value.trim();
   const category = document.getElementById('new-cat').value;
@@ -2616,37 +2613,64 @@ function addItem() {
     showToast('Missing Fields', 'Name, price and category are required', true);
     return;
   }
-  menuItems.push({ id: Date.now(), name, price, category, tag: isSpecial ? 'Signature' : dietary || '', img, desc, visible: true });
-  document.getElementById('new-name').value = '';
-  document.getElementById('new-price').value = '';
-  document.getElementById('new-cat').value = '';
-  document.getElementById('new-dietary').value = '';
-  document.getElementById('new-img').value = '';
-  document.getElementById('new-desc').value = '';
-  document.getElementById('special-toggle').classList.remove('on');
-  renderMenu();
-  showToast('Item Added', `"${name}" is now live on the menu`);
-}
 
-function deleteItem(id) {
-  const item = menuItems.find(i => i.id === id);
-  if (confirm(`Remove "${item?.name}" from the menu?`)) {
-    menuItems = menuItems.filter(i => i.id !== id);
-    renderMenu();
-    showToast('Item Removed', `"${item?.name}" has been deleted`);
+  const newItemData = {
+    name, price, category, tag: isSpecial ? 'Signature' : dietary || '', img, desc, visible: true
+  };
+
+  try {
+    const response = await fetch(`${API_BASE}/menu`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newItemData)
+    });
+
+    if (response.ok) {
+      // Clear form
+      document.getElementById('new-name').value = '';
+      document.getElementById('new-price').value = '';
+      document.getElementById('new-cat').value = '';
+      document.getElementById('new-dietary').value = '';
+      document.getElementById('new-img').value = '';
+      document.getElementById('new-desc').value = '';
+      document.getElementById('special-toggle').classList.remove('on');
+      
+      showToast('Item Added', `"${name}" saved to database`);
+      await loadMenuFromServer(); // Refresh data!
+    } else {
+      showToast('Error', 'Failed to save item', true);
+    }
+  } catch (error) {
+    showToast('Network Error', 'Could not reach database', true);
   }
 }
 
-function toggleVisibility(id, el) {
-  const item = menuItems.find(i => i.id === id);
-  if (item) {
-    item.visible = !el.classList.contains('on');
-    el.classList.toggle('on');
-    renderPublicMenu('All');
-    document.getElementById('stat-items').textContent = menuItems.filter(i => i.visible !== false).length;
+async function deleteItem(id) {
+  const item = menuItems.find(i => i._id === id);
+  if (confirm(`Remove permanently from the database?`)) {
+    try {
+      const response = await fetch(`${API_BASE}/menu/${id}`, { method: 'DELETE' });
+      if (response.ok) {
+        showToast('Item Removed', `Deleted successfully`);
+        await loadMenuFromServer(); // Refresh data!
+      }
+    } catch (error) {
+      showToast('Error', 'Failed to delete item', true);
+    }
   }
 }
 
+async function toggleVisibility(id, el) {
+  try {
+    const response = await fetch(`${API_BASE}/menu/${id}/toggle`, { method: 'PUT' });
+    if (response.ok) {
+      el.classList.toggle('on');
+      await loadMenuFromServer(); // Refresh data!
+    }
+  } catch (error) {
+    showToast('Error', 'Failed to update visibility', true);
+  }
+}
 // ===========================
 // FORM HANDLERS
 // ===========================
@@ -2749,7 +2773,7 @@ window.addEventListener('load', () => {
   document.getElementById('menu-date').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
 
   // Build content
-  renderMenu();
+  loadMenuFromServer();
   buildTestimonials();
 
   // Set today's date as min for reservations
