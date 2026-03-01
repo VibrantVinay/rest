@@ -2446,6 +2446,14 @@ const API_BASE = 'https://rest-production-a0f4.up.railway.app/api';
 
 let menuItems = []; // Start empty, we will fetch from the database!
 
+let testimonials = [
+  { name: "Charlotte Webb", country: "London, UK", quote: "The cardamom chai alone is worth the journey to Kozhikode. An utterly transcendent experience from first cup to last bite.", stars: 5, avatar: "https://i.pravatar.cc/44?img=1" },
+  { name: "Akira Tanaka", country: "Tokyo, Japan", quote: "I have visited over 200 teahouses worldwide. Varikkans is in a different category entirely. The Nilgiri Frost alone is a revelation.", stars: 5, avatar: "https://i.pravatar.cc/44?img=2" },
+  { name: "Maria García", country: "Barcelona, Spain", quote: "The tasting menu is a culinary poem. Every course builds on the last, weaving tea into food in ways I never imagined possible.", stars: 5, avatar: "https://i.pravatar.cc/44?img=3" },
+  { name: "James Okafor", country: "Lagos, Nigeria", quote: "Exceptional hospitality, world-class ingredients, and a sense of place that is irreplaceable. I return every time I'm in Kerala.", stars: 5, avatar: "https://i.pravatar.cc/44?img=4" },
+  { name: "Sophie Dubois", country: "Paris, France", quote: "As a Parisian food critic, I approach every new restaurant with scepticism. Varikkans silenced it within the first three minutes.", stars: 5, avatar: "https://i.pravatar.cc/44?img=5" },
+  { name: "Ravi Shankar", country: "Mumbai, India", quote: "Our family has been coming here since opening. It's a rare thing — a restaurant that gets better every single year.", stars: 5, avatar: "https://i.pravatar.cc/44?img=6" }
+];
 // --- NEW: Fetch live data from Railway ---
 async function loadMenuFromServer() {
   try {
